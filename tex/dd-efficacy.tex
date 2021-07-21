@@ -5,7 +5,7 @@
 \usepackage{amssymb,amsthm,mathrsfs,mathtools}
 
 \usepackage{graphicx,subcaption}
-\graphicspath{{"../img/"}}
+\graphicspath{{"../img/"}{"../figures/"}}
 \usepackage[usenames,dvipsnames]{color}
 
 
@@ -1186,6 +1186,101 @@ as well. The error phase after $\mathrm{CDD}_n$ is still approximated by
 \end{figure}
 
 In \Figref{fig:cdd-gatedep-thres}, we simulate both PDD and $\mathrm{CDD}_3$ with the gate-dependent noise model. We find that our prediction works pretty well. 
+
+
+\section{Impact of different measures}
+\subsection{Error phase benchmarking}
+We reproduce the error phase results in Fig. \ref{fig:pdd-region} in this subsection to make sure that the generation of the Hamiltonian and the usage of the norm are consistent. In Fig. \ref{fig:pdd-region-check-opnorm}(a), The region has similar boundaries as compared In Fig. \ref{fig:pdd-region-check-opnorm}(b) (Fig. \ref{fig:pdd-region})
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{error_opnorm}
+    \includegraphics[width=\columnwidth]{pdd-ideal-region}
+    \caption{Reproduction of Fig. \ref{fig:pdd-region} by using error phase with operator norm}
+    \label{fig:pdd-region-check-opnorm}
+\end{figure}
+
+\subsection{Error phase with different norm usage}
+Apart from the error phase with operator norm, we also use the Schatten $\infty$-norm and 2-norm to compute the error phase though this is inconsistent with the previous definition. This is to setup possible reference with respect to the channel infidelity measure as $\infid(\cE)\simeq \norm{\Omega_\rSB}_\infty^2$. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{error_norm}
+    \caption{Error phase with Schatten 2-norm} 
+    \label{fig:pdd-region-check-norm}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{error_norminf}
+    \caption{Error phase with Schatten $\infty$-norm} 
+    \label{fig:pdd-region-check-norm}
+\end{figure}
+
+\subsection{Channel infidelity and trace distance}
+We will proceed to consider to check channel infidelity as a possible measure whether PDD would work as expected. Note that the definition is given by for a specify channel $\cE$,
+\begin{align}
+\trdis_{\max}(\cE) &= \max_{\rho\in\cD(\cH)} \tfrac{1}{2} \norm{ (\cI -\cE) (\rho)}_1 \equiv \tfrac{1}{2} \norm{ \cI -\cE}_1, \\
+\infid_{\max}(\cE) &\equiv \max_{\rho\in\cD(\cH)} \tr\bigl(\rho\, (\cI -\cE)(\rho)\bigr).
+\end{align}
+However, for a set of $\alpha$ and $\beta$, there could be various different channels ${\cE}_i$. We have therefore take the maximum over these channels as well thus  
+\begin{align}
+    \trdis_{\max} &= \max_{{\cE}_i, \rho\in\cD(\cH)} \tfrac{1}{2} \norm{ (\cI - {\cE}_{i}) (\rho)}_1 \equiv \tfrac{1}{2} \norm{ \cI -\cE}_1, \\
+    \infid_{\max} &\equiv \max_{ {\cE}_i,\rho\in\cD(\cH)} \tr\bigl(\rho\, (\cI -{\cE}_{i})(\rho)\bigr).
+\end{align}
+We restrict ourselves to the infidelity of PDD channel and free evolution channel, namely $\infid^{\rm DD}_{\rm max}(\beta, \alpha, \eta)$,  $\infid^{\rm free}_{\rm max}(\beta, \alpha)$. 
+
+
+We thus consider the ratio of the channel infidelity for DD sequence and that for free evolution, i.e., $\infid^{\rm DD}_{\rm max} / \infid^{\rm free}_{\rm max}$. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{infidelity}
+    \includegraphics[width=\columnwidth]{infidelity_sqrt}
+    \caption{Ratio of $\infid^{\rm DD}_{\rm max} / \infid^{\rm free}_{\rm max}$ and its square root. We consider the ideal situation where the pulses are ideal. For each pair of $\alpha$ and $\beta$, we consider 1000 samples channels ${\cE}_i$} 
+    \label{fig:pdd-region-fidelity}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{trdistance}
+    \caption{Ratio of $\trdis^{\rm DD}_{\rm max} / \trdis^{\rm free}_{\rm max}$. We consider the ideal situation where the pulses are ideal. For each pair of $\alpha$ and $\beta$, we consider 1000 samples channels ${\cE}_i$} 
+    \label{fig:pdd-region-trdistance}
+\end{figure}
+
+
+\subsection{Difference measures versus $\beta$}
+These measures show very different error suppression boundaries. We consider a give measure $\cM$ for DD and free evolution respectively and inspect how it scale with $\beta$. From Fig. \ref{fig:pdd-region-beta}, the error for free evolution (solid lines) are all linear with respect to $\beta$, with different gradients. Channel infidelity for free evolution (blue solid line) is quadratic with respect to $\beta$ which has been proven in Appendix A. \ref{app:infid-beta-series}. Channel trace distance (orange solid lines), on the other hand, is linearly related to $\beta$. This suggests a different different error tolerance for these measures. For example, free evolution channel trace distance has reached the upper bound defined by Fuchs-van de Graaf inequalities and thus is bounded by the sqrt root of infidelity showing a linear dependence with respect to $\beta$. This would imply a large error for free evolution. On the other hand, the Channel trace norm with PDD is quadratic with respect to $\beta$ corresponding to the free evolution infidelity. ({Qns: \color{red} To what extent do they correspond to just a scaling on the parameters?} )
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{error_beta}
+    \caption{Different error measure versus $\beta$ at a fix $\alpha$. $\alpha=0.1$.} 
+    \label{fig:pdd-region-beta}
+\end{figure}
+
+
+
+
+\subsection{Noisy pulse}
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics[scale=0.42]{errorphase_eta0.02.pdf}
+    \includegraphics[scale=0.42]{errorphase_eta0.06.pdf}
+    \includegraphics[scale=0.42]{errorphase_eta0.1.pdf}
+    \includegraphics[scale=0.42]{errorphase_eta0.14.pdf}
+    \includegraphics[scale=0.42]{infidelity_eta0.02.pdf}
+    \includegraphics[scale=0.42]{infidelity_eta0.06.pdf}
+    \includegraphics[scale=0.42]{infidelity_eta0.1.pdf}
+    \includegraphics[scale=0.42]{infidelity_eta0.14.pdf}
+    \caption{Top panels: reproduction of the error phase results in Fig. \ref{fig:npdd-reg-tho}. Bottom panels: Noise reduction region using channel infidelity. The strength of noise in the pulse $\theta = 0.02,~0.06,~0.1,~0.14$ from left to right. } 
+    \label{fig:noisy-pulse-comparison}
+\end{figure*}
+
+By using different measures, we do see a different noise reduction region. This is is demonstrated by the comparison between noise suppression region using error phase and channel infidelity in Fig. \ref{fig:noisy-pulse-comparison}. The noise suppression region by channel infidelity is larger than that of the error phase.
+
+
+
+
 
 
 
