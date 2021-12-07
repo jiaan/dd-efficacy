@@ -1,0 +1,805 @@
+\documentclass[twocolumn,pra,superscriptaddress]{revtex4-2}
+
+\usepackage{amssymb,amsthm,mathrsfs,mathtools}
+\usepackage[usenames,dvipsnames]{color}
+
+\usepackage{graphicx}
+\graphicspath{{../"img/"}{../"figures/"}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=magenta,
+    linkcolor=blue,   
+    urlcolor=blue,
+}
+
+\bibliographystyle{apsrev4-2}
+\def\biblio{\bibliography{references}}
+
+
+\usepackage{mycommands}
+\newcommand{\numcircled}[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {#1}}}}
+\newcommand{\Dmax}{\trdis_\mathsf{max}}
+\newcommand{\InFmax}{\infid_\mathsf{max}}
+\newcommand{\Psb}{\mathcal{P}_\mathrm{SB}}
+\newcommand{\Odd}{\Omega_{\mathsf{DD}}}
+\newcommand{\Opdd}{\Omega_{\mathsf{PDD}}}
+\newcommand{\vOpdd}{\vec{\Omega}_{\mathsf{P}}}
+\newcommand{\LO}[1]{\operatorname{LO}}
+\newcommand{\alphat}{\widetilde{\alpha}}
+\newcommand{\betat}{\widetilde{\beta}}
+\newcommand{\Omegat}{\widetilde{\Omega}}
+\newcommand{\Ppb}{\mathscr{P}_{\mathrm{0}}}
+\newcommand{\Pcp}{\mathscr{P}_{\mathrm{c}}}
+
+
+\newcommand{\HB}{H_\mathrm{B}}
+\newcommand{\HSB}{H_\mathrm{SB}}
+
+\newcommand{\Heff}{H_\mathrm{eff}}
+\newcommand{\HeffB}{H_\mathrm{eff,B}}
+\newcommand{\HeffSB}{H_\mathrm{eff,SB}}
+
+\newcommand{\ep}{\Phi_\mathrm{SB}}
+\newcommand{\epB}{\Phi_\mathrm{B}}
+\newcommand{\phiSB}{\phi_\mathrm{SB}}
+\newcommand{\phiB}{\phi_\mathrm{B}}
+
+\newcommand{\CDDn}{\mathrm{CDD}_n}
+
+\begin{document}
+
+\title{Efficacy of noisy dynamical decoupling}
+\author{Jiaan Qi}
+\affiliation{Yale-NUS College, Singapore}
+
+\author{Xiansong Xu}
+\author{Dario Poletti}
+\affiliation{Singapore University of Technology and Design}
+\author{Hui Khoon Ng}
+\affiliation{Yale-NUS College, Singapore}
+\affiliation{Centre for Quantum Technologies, National University of Singapore}
+\affiliation{MajuLab, International Joint Research Unit UMI 3654,
+CNRS-UCA-SU-NUS-NTU, Singapore}
+
+
+\begin{abstract}
+\blue{(To be edited.)}
+This paper study dynamical decoupling (DD), a family of pulse schemes aimed at removing noise in quantum systems. We first review the formalism of DD with an emphasis on the error phase, a figure-of-merit characterizing the performance of DD. We then develop noise suppression criteria from the error phase perspective for the periodic and concatenated DD schemes. A rigorous proof for the noise decoupling order of  concatenated DD is also presented.
+\end{abstract}
+
+\maketitle
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+The adverse effects of noise remains the single biggest obstacle to the realisation of large-scale quantum technologies. The very quantum effects that give quantum technologies their edge over classical devices are extremely fragile and easily destroyed by the presence of unwanted interactions with the environment—noise. Much of the current research and technological push in the community today are centered around implementing methods to remove the effects of noise in quantum devices.
+
+A key noise-removal technique is dynamical decoupling (DD)~\cite{viola1999dynamical,duan1998pulse,zanardi1999symmetrizing,khodjasteh2005fault,khodjasteh2007performance,viola2006randomized,uhrig2007keeping,pasini2010optimized,wang2011protection,ng2011combining,kuo2011quadratic}, a low-resource-cost approach that only requires application of fast pulse sequences on individual qubits in the quantum device to average away the effects of noise processes slow compared to the pulse time. With its roots in spin-echo techniques in NMR systems, DD has been used in many different types of experiments as a simple way to reduce noise in quantum information processing systems. Such active noise removal scheme is in direct contrast with the widely studied approach of quantum error correction (QEC)~\cite{laflamme1996perfect,gottesman1997stabilizer,knill1997theory,knill2000theory,shor1996fault,gottesman1998theory,aharonov2008fault}\blue{ [To re-select cited papers. Reduce the number of citations for QEC - QEC is not our main topic, so just cite two or three most seminal works. Also, the original QEC papers are not cited (goes back to Shor and Schumacher or some such early papers in the late 90s...). Perhaps cite a QEC textbook?]}.
+Compared with QEC,  dynamical decoupling is typically more economical as it
+require no encoding of logical qubits using multiple physical qubits, nor real-time close-loop control through periodic syndrome measurement. All that is needed are regular single-qubit fast pulses that are usually easy to implement. DD be used by itself, or as the first layer of defense against noise In practice, one can choose to only implement DD or to incorporate DD within a standard QEC scheme as the low-level noise-reduction approach \rsout{\cite{west2010high} }\red{(We don't need a citation here, not for a standard statement)}. 
+
+The use of DD does not, however, come at no cost. To implement it, one has to apply multiple pulses, which can be imperfect. On the one hand, if the DD pulses are perfect, the slow noise will be averaged away, leaving weaker residual noise on the system; on the other hand, if the DD pulses are imperfect, those imperfections can add errors to the system, and if those errors happen often enough, they can eliminate the benefit of having DD in the first place. Like the cost-benefit analysis familiar to fault-tolerant quantum computing, one has to ask whether there is an error threshold for DD, limiting the level of imperfections allowed in the DD pulses above which DD simply cannot offer any benefit. 
+
+\bigskip
+\noindent\blue{More to come.}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preliminaries}
+\noindent\blue{(Probably need to re-order the subsections here. To do later.)}
+
+%%%%%%%%%
+\subsection{Basics of DD}
+
+DD involves the repeated application of a fixed sequence of short pulses (or fast gates) to individual quantum registers---usually qubits---that averages away the effect of any noise with a time scale slow compared to the sequence time. For a given DD scheme, let $L$ be the number of pulses in the sequence. We denote the $i$th pulse of the sequence as $P_i$, and write the sequence as
+\begin{equation}
+P_L \ldots P_2P_1,
+\end{equation}
+proceeding from right to left in time. Pulse $P_i$ is applied at time $t_{i-1}+\tau_i$ where $t_{i-1}$ is the time of the application of $P_{i-1}$, and $t_0$ is the start time of the sequence. \red{(Please edit Fig.~1 to illustrate the sentences above, including indicating the time intervals; remove $Q_i$s from the figure. No need to mention gates here.)}
+
+\begin{figure}[htbp]
+ \includegraphics[width=1\linewidth]{pulse.pdf}
+ \caption{\blue{(Add caption)}}
+\end{figure}
+
+All DD schemes share some fundamental similarities. First, the pulses are chosen from a specified group of transformations $P_i \in \sG$, for $i=1,2,\ldots, L$.
+Second, any DD sequence satisfies the constraint
+\begin{equation}\label{eq:fundamental-constraint}
+    P_L P_{L-1} \cdots P_1 \stackrel{\textbf{.}}{=} I,
+\end{equation}
+where the dot above the equal sign means ``up to an overall phase factor". This constraint ensures that there is no net transformation on the quantum register at the completion of the sequence. 
+Different strategies could differ in the following aspects:
+(i) the transformation group $\sG$.---For a qubit register, an obvious choice is perhaps the Pauli group generated by the Pauli operators $X,Y$, and $Z$. Simpler schemes such as spin echo \cite{Hahn1950} and the CPMG sequence \cite{Carr1954,Meiboom1958} use only the subgroup $\{I,Z\}$.  
+(ii) the sequence length $L$ and the specific sequence of pulses.
+(iii) the pulse times.---One can have regular-interval pulses, with $\tau_i\equiv \tau$ $\forall i$, as is the case in the periodic DD (PDD) \cite{viola1999dynamical} and concatenated DD (CDD) \cite{khodjasteh2005fault} schemes. One could, however, have variable-interval schemes, such as the Uhrig DD (UDD) sequence \cite{uhrig2007keeping}, nested UDD \cite{wang2011protection}, and quadratic DD \cite{kuo2011quadratic}.
+In this work, we focus our analysis on the regular-interval schemes of PDD and CDD, differing in sequence length and the specific pulse sequence, but which both employ pulses drawn from the Pauli group. 
+
+The physical model we are considering is one where gates, including DD pulses, can be applied at some operating frequency, with time $\tau$ in between consecutive gates. A nonzero $\tau$ can be simply the finite switch time between gates, or there may be other practical reasons for a synchronized clock cycle time. We model the DD pulses as instantaneous gates taking no time. There are two sources of errors: (i) the system---the quantum register---interacts with a bath, and that interaction is the source of noise on the system, present even in the absence of the DD pulses; (ii) the pulse imperfections. In past work (see, for example, Ref.~\cite{khodjasteh2005fault}), imperfect DD pulses were modeled as finite-duration pulses during which the alway-on system-bath interaction acts and leads to errors in the pulses. Here, we allow for the more general, and practically relevant, situation of additional control errors in the pulses. We model noisy finite-duration pulses as instantaneous ideal pulses followed by a noise map that captures the background noise as well as any additional control errors. DD sequences are ideally designed to average away the background noise arising from the system-bath interaction. We refer to the original DD sequences with perfect instantaneous pulses as ideal DD, and to the case with imperfect pulses as noisy DD.
+
+In the absence of any DD pulses, the system and bath evolve jointly according to the Hamilton operator $H$, assumed to be time-independent as is appropriate for standard DD analysis (put differently, any parametric time dependence in the joint dynamics occurs because of degrees of freedom excluded from the bath; here we think of all such degrees of freedom as part of the bath). $H$ here can be written as $H=\HB +\HSB$, with $\HB$ as the bath-only Hamilton operator, and $\HSB$ the interaction. No system-only term appears in $H$ as we assume no nontrivial dynamics (other than that arising from $\HSB$) occur in the system during the DD period. With this, we can write the evolution operator for ideal DD as
+\begin{equation}\label{eq:Udd}
+U_\mathrm{DD}\equiv P_L\upe^{-\upi\tau H}P_{L-1}\ldots P_2\upe^{-\upi\tau H}P_1\upe^{-\upi\tau H}\equiv\upe^{-\upi\Odd}.
+\end{equation}
+Here, we have defined $\Odd\equiv T\Heff $ as the dimensionless (with the $T$ factor) effective Hamilton operator appropriate for describing evolution for the time of the DD sequence.
+$\Odd$ can be written down formally using the Magnus expansion,
+\begin{equation}\label{eq:Oeff Magnus series}
+\Odd  = \sum_{m=1}^\infty \Odd\up{m},
+\end{equation}
+where the $m$th term consists of of products of $m$ copies of $\tau H$, and hence of order $\Vert \tau H \Vert^m$. We refer the reader to past analyses of DD \red{(cite)} for a detailed derivation; here we provide only the basic expressions needed for our discussion below. \blue{(Add back a bit of the derivation of the $\Odd^{(1)}$ and $\Odd^{(2)}$ terms.)} Within the radius of convergence of the Magnus series, $\Odd^{(m)}$ decreases in importance as $m$ increases. A DD scheme such that $\Odd^{(m)}$ acts trivially on the system (i.e., acts as $I$ on system) for all $m\leq n$ is said to achieve $n$th-order decoupling---the system sees weakened noise, of strength $\Vert\Odd^{(n)}\Vert\sim\Vert \tau H\Vert^n$, compared to $\Vert\Odd^{(1)}\Vert\sim\Vert \tau H\Vert$ without DD.
+
+We specialize here to the case of interest, that of the single-qubit PDD scheme. The single qubit interacts with a bath, with a joint Hamilton operator (in the absence of DD) that can be written, without loss of generality, as
+\begin{equation}
+H\equiv I\otimes B_I+X\otimes B_X+Y\otimes B_Y+Z\otimes B_Z,
+\end{equation}
+where $I$ is the identity operator on the qubit, $X,Y$, and $Z$ are the Pauli operators on the qubit, and $B_i$, for $i=I,X,Y,Z$, are operators on the bath. We identify $I\otimes B_I$ as the bath-only $H_\mathrm{B}$ and $X\otimes B_X+Y\otimes B_Y+Z\otimes B_Z$ as the interaction Hamilton operator $H_\mathrm{SB}$, and define
+\begin{equation}
+\tau\opnorm{H}=(\tau\Vert H_\mathrm{B}\Vert,\tau\Vert H_\mathrm{SB})\equiv (\phiB,\phiSB).
+\end{equation}
+
+The PDD scheme uses a simple 4-pulse sequence $ZXZX$. The corresponding $\Odd$ of Eqs.~\eqref{eq:Udd} and \eqref{eq:Oeff Magnus series}, now re-labeled as $\Opdd$, can be worked out to be
+\begin{align}
+\Opdd&=\Opdd^{(1)}+\Opdd^{(2)}+\ldots\\
+\textrm{with}\qquad \Opdd^{(1)}&=(4\tau) I \otimes B_I \\
+\Opdd\up{2}&=-(2\tau^2)\bigl\{ X\otimes 2\upi\,[B_I,B_X]\label{eq:PDD-magnus-2}\\
+&\!\!\quad\qquad +Y \otimes {\left(\upi\,[B_I,B_Y] + \{B_X,B_Z\}\right)}\bigr\},\nonumber
+\end{align}
+where $[\cdot,\cdot]$ and $\{\cdot,\cdot\}$ are the commutator and anti-commutator, respectively.
+$\Opdd$ should be compared against the evolution operator (over the same time period of $4\tau$) in the absence of DD: $U=\upe^{-\upi4\tau H}\equiv \upe^{-\upi\Omega}$, with
+\begin{equation}
+\Omega=(4\tau)H=(4\tau){\left(I\otimes B_I+\HSB\right)}
+\end{equation}
+Comparing $\Opdd^{(1)}$---usually the dominant term---with $\Omega$, we see that the $\HSB$ in $\Omega$ no longer appears in $\Opdd^{(1)}$ and $\Opdd^{(1)}$ is trivial on the system. This corresponds to the fact that PDD is able to remove the lowest-order noise and that it achieves first-order decoupling. \blue{(To revisit to see if a re-phrasing is needed. I'm worried about the $[B_I,B_X]$ term in $\Opdd^{(2)}$, which is of order $\Vert \HB\HSB\Vert$, not $\Vert \HSB\Vert^2$. Also the last sentence of the paragraph following Eq.~\eqref{eq:Oeff Magnus series}.)}
+
+\red{[I am changing most of the $\Omega$-like quantities into $\tau H$s (except when we talk about the Magnus series) -- it is important to keep the time parameter visible. Sometimes, $\tau$ is the relevant time---for the no DD case---sometimes $K\tau$ is the relevant one---for the DD case. These should just be visible in the analysis, not kept hidden within $\Omega$. This becomes especially important when considering CDD.]}
+
+
+
+
+
+%%%%%%%%%%
+\subsection{Scaling up the protection - concatenated DD}
+
+A given DD sequence yields a given decoupling order, setting a limit on the scheme's ability to reduce noise in the system. To increase the power of the DD scheme, one can employ the method of concatenation introduced in Ref.~\cite{khodjasteh2005fault}. In that work, concatenated DD (CDD) was built upon the basic PDD scheme; the same procedure of concatenation, however, can be applied to other basic DD sequences. The idea is to make use of concatenation to increase the decoupling order of the resulting DD sequence, hence scaling up the protection of the system against noise.
+
+CDD can be described in a recursive manner. We begin with the bare evolution, without any DD sequence, writing the evolution operator over some time interval $t$ as
+\begin{equation}
+U_0(t)\equiv \upe^{-\upi t H_0},
+\end{equation}
+where $H_0\equiv H$, with the subscript $0$ added here in preparation for concatenation to higher levels. With a DD scheme of $L$ pulses, applied at time intervals (assuming regular-interval DD) $\tau_0$, the evolution operator is
+\begin{equation}
+U_1(\tau_1)\equiv P_LU_0(\tau_0)\ldots P_2U_0(\tau_0)P_1U_0(\tau_0),
+\end{equation}
+where $\tau_1\equiv L\tau_0$. The subscript $1$ is to be understood as indicating that this is concatenation level 1. To concatenate further, $U_k(\tau_k)$ is defined recursively, 
+\begin{equation}
+U_{k+1}(\tau_{k+1})\equiv P_LU_k(\tau_k)\ldots P_2U_k(\tau_k)P_1U_k(\tau_k),
+\end{equation}
+increasing the concatenation level by 1 each time, and with $\tau_{k+1}\equiv L\tau_k$. With each $U_k(\tau_k)$, we associate an effective Hamilton operator $H_k$, and a dimensionless Hamilton operator $\Omega_k\equiv\tau_kH_k$, such that 
+\begin{equation}
+U_k(\tau_k)\equiv \upe^{-\upi\tau_k H_k}=\upe^{-\upi\Omega_k}.
+\end{equation}
+Each CDD scheme is determined by specifying the maximal concatenation level $n$, and either the value of $\tau_0$ or $\tau_n$. CDD at level $n$, denoted as $\CDDn$, is then a sequence of $L_n\equiv L^n$ pulses separated by time interval $\tau_0$ and taking total time $\tau_n=L^n\tau_0$ to complete.
+
+In the remainder of the paper, we will restrict our discussion to CDD built upon the basic PDD scheme. The authors of Ref.~\cite{khodjasteh2005fault} showed that $\CDDn$ achieves $n$th order decoupling. This quantifies the benefit of scaling up the noise protection by concatenation. Appendix \ref{app:CDD} re-derives this conclusion with a different and what we believe to be clearer argument than that in the original reference. 
+
+
+
+%%%%%%%%%
+\subsection{Quantifying the efficacy of DD}
+\blue{(More to come. To put back parts of the fidelity, etc. discussion, as needed in the remainder of the text.)}
+%%%%%
+\subsubsection{Error Phase}
+To gauge the efficacy of DD, we need to quantify the deviation of the actual state of the quantum system, with and without DD, from the ideal, no-noise state. Following Ref.~\cite{khodjasteh2007performance}, we make use of the \emph{error phase}, which measures the strength of the system-bath interaction, the source of the noise on the system. The system and bath evolve jointly for some specified time $T$ according to the evolution operator $U(0,T)$. The underlying joint Hamilton operator generating the dynamics can be time-dependent, and can include---or not---the DD pulses on the system. We write $U(0,T)\equiv \upe^{-\upi T\Heff}$, for some effective time-independent system-bath Hamilton operator $\Heff$. $\Heff$ can be split into two pieces: $\Heff\equiv \HeffB+\HeffSB$, where $\HeffB\equiv \frac{I_\mathrm{S}}{d_\mathrm{S}}\otimes\tr_S(\Heff)$ acts on the bath alone, while $\HeffSB\equiv \Heff-\HeffB$ contains all the pieces that act nontrivially on the system. $\HeffSB$ can be thought of as the effective system-bath interaction over this time $T$. We define the error phase as the norm of that interaction, multiplied by the time interval,
+\begin{equation}\label{eq:ErrorPhase}
+\ep\equiv T\Vert\HeffSB\Vert .
+\end{equation}
+We use a norm such that $\Vert S\otimes B\Vert = |\Vert S\Vert \Vert B\Vert$, and $\Vert I\Vert =1=\Vert X\Vert = \Vert Y \Vert =\Vert Z\Vert$ for single-qubit $I, X, Y$, and $Z$.
+
+As we will see, the norm of $\HeffB$ will also enter our analysis. We define the corresponding error phase for the bath-only term as $\epB\equiv \Vert\HeffB\Vert T$, and also ``two-component" error phase as
+\begin{equation}
+\Phi\equiv T\opnorm{\Heff}\equiv (\epB,\ep)
+\end{equation}
+\blue{(To merge with new text.) }\gray{
+Following the properties of operator norm, thus-defined map is  absolutely-scalable $\opnorm{a\, \Omega}= |a|\cdot \opnorm{\Omega}, \forall a \in \mathbb{C}$,
+and satisfies the inequality, 
+$\opnorm{A+B}\le \opnorm{A} + \opnorm{B}$,
+where  the ``$\le$'' sign between number pairs  is defined by each of the components: $(a_1,b_1)\le(a_2,b_2)$ if both $a_1\le a_2$ and $b_1\le b_2$; vice versa for  the ``$\ge$'' sign. 
+It can also be easily verified that the two-component norm is invariant under arbitrary disjoint unitary transformation on $\cH_\rS\otimes\cH_\rB$:
+\begin{equation}
+    \opnorm{(U_\rS \otimes U_\rB) \Omega (U_\rS ^\dagger \otimes U_\rB)} = \opnorm{\Omega},\, \forall U_{\rS} (U_{\rB})  \in \sU(d_{\rS(\rB)}),
+\end{equation}
+where $\sU(d_{\rS(\rB)})$ is set of unitary operators on $\cH_\rS$ or $\cH_\rB$.
+This invariance suggests that the error phase is invariant under arbitrary interaction picture defined by a system or bath evolution.
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Break-even point for periodic DD}
+Any noise mitigation strategy is effective only if its costs---the increased complexity of carrying out the quantum computational task---are lower than its benefits---the increased ability to remove adverse effects of the noise. The costs enter not just because any noise mitigation approach requires the use of more resources, e.g., more gates, more qubits, etc., but more that those added resources are themselves imperfect in practice, such that the unmitigated noise of the resulting larger system is unavoidably larger than if no noise mitigation strategy was adopted. There is then a net benefit only if the added noise is low enough to not overwhelm the added noise-removal capabilities. Such is the content of any fault-tolerant analysis, usually applied to quantum computing tasks protected by quantum error correction. Here, we apply the same logic to DD, and ask when the added benefit of averaging away part of the noise outweighs the added cost of having to do additional DD pulses.
+
+We can distinguish between two operational considerations: to preserve states in a quantum memory (no computational gates), or to reduce noise in the course of carrying out a quantum computation. In the memory setting, the goal is to preserve the quantum informational state for some time $T$ without damage. During this time $T$, we can do DD pulses, and ask if the noise at the end of each complete DD sequence is lower than the noise over the same time period if there were no DD pulses. In other words, for DD to work well, we require
+\begin{equation}
+\textrm{Memory setting:}\quad \epsilon_\mathrm{DD}<\epsilon(L),
+\end{equation}
+where $\epsilon_\mathrm{DD}$ quantifies the noise after the DD sequence, while $\epsilon(L)$ is the noise after bare evolution for the time taken for the $L$ DD pulses to be applied.
+
+In the computational setting, the comparison of with and without DD is different. With DD, computational gates can only be applied at the completion of each iteration of the DD sequence, as opposed to every time step without DD. The condition for DD to be effective in this case is then
+\begin{equation}\label{eq:cond}
+\textrm{Computational setting:}\quad\epsilon_\mathrm{DD}<\epsilon(1),
+\end{equation}
+where $\epsilon(1)$ is the noise after bare evolution for a single time step. In our work, we focus on the computational setting, the more stringent one among the two, though it is straightforward to modify our analysis for the memory case. As we will see, Condition \eqref{eq:cond} will yield a requirement on the noise parameters characterizing the noise in the system and the DD pulses. We refer to that requirement as the ``break-even point" for DD, borrowing terminology from quantum error correction and fault-tolerant quantum computing.\red{ (There was a comment in the .tex file that some past papers have analyzed the memory case. What are those papers? Do you just mean the Khodjasteh-Lidar 2007 paper? That paper looks only at imperfections due to finite-width pulses, not control errors as we do here. Their paper hence only has a single-parameter $\ep$, not our two-parameter $\ep$ and $\eta$ situation. In fact, in current experiments $\eta$ is likely the larger problem; memory noise is usually much smaller than gate noise. Or are there other earlier papers?)}
+
+\blue{(To be merged with the new text.) }\gray{The conditions for achieving noise suppression are already derived previously for the idealistic PDD and CDD case.
+In general, we find that smaller $(\alpha,\beta)$ values would lead to to better noise suppression rate. Therefore the gates should be performed as frequently as possible. But this may leads to suboptimal outcomes in practice given the extra noise introduced by imperfect gate operations. To study the fault-tolerance of DD, we must account for the additional noise associated with the control gates.}
+
+
+
+%%%%%%%%%
+\subsection{Ideal case}
+
+Let us first discuss when ideal PDD is useful---we expect to recover the usual statement of when the idea of PDD works at all. We choose the error phase as our figure of merit: $\epsilon\equiv \Phi$. For PDD to be useful, we require, under the computational setting, 
+\begin{equation}
+\ep\leq \phiSB.
+\end{equation}
+From our earlier discussion of PDD, it is clear that $\ep=\Vert \Opdd^{(2)}+\Opdd^{(3)}+\ldots\Vert$. The full Magnus series is difficult to write down, but we can employ the dominant term, $\Opdd^{(2)}$ which acts nontrivially on the system, for the approximate condition:
+\begin{equation}\label{eq:cond1}
+\ep\simeq\Vert \Opdd^{(2)}\Vert\leq \phiSB.
+\end{equation}
+Using the expression for $\Opdd^{(2)}$ from Eq.~\eqref{eq:PDD-magnus-2}, we have
+\begin{align}
+\Vert\Opdd^{(2)}\Vert&\leq 2\tau^2{\bigl(2\Vert[B_I,B_x]\Vert+\Vert[B_I,B_Y]\Vert +\Vert\{B_X,B_Z\}\Vert\bigr)}\nonumber\\
+&\leq 4\phiB\tau\bigl(2\Vert B_X\Vert +\Vert B_Y\Vert\bigr) +4\tau^2\Vert B_X\Vert\Vert B_Z\Vert\nonumber\\
+&\leq 12\phiB\phiSB+4\phiSB^2\label{eq:Opdd2}
+\end{align}
+noting that $\phiB\equiv \tau\Vert H_\mathrm{B}\Vert =\tau\Vert B_I\Vert$, and that $\phiSB\equiv \tau\Vert H_\mathrm{SB}\Vert=\tau{\left[\sum_{i=X,Y,Z}\Vert B_i\Vert^2\right]}^{1/2}\geq \tau\Vert B_i\Vert$ for any $i=X,Y,Z$ \blue{(The first equality is true under the H-S induced norm, but missing a factor of 2, as written; can be remedied by using normalized Pauli operators. Need to fix this throughout the paper)}.
+To get condition \eqref{eq:cond1}, it then suffices to require
+\begin{equation}
+12\phiB+4\phiSB\leq1.
+\end{equation}
+
+This amounts to a requirement that both $\phiSB$ and $\phiB$ be small for PDD to work well. That $\phiSB$ has to be small comes as no surprise---$\phiSB$ quantifies the strength of the noise on the system, and DD is expected to work well as long as the noise is weak enough so that the remnant noise is weak. The requirement that $\phiB$ be small is perhaps a bit more surprising -- after all, it bounds the bath-only term which does not directly lead to noise on the system Nevertheless, $H_\mathrm{B}$ determines the evolution rate of the bath. The requirement that $\phiB$ also has to be small should be understood as the requirement that any DD scheme requires the noise to remain more or less constant throughout the sequence, for good averaging by the pulses. $\phiB$ quantifies how rapidly the bath evolves, and hence how quickly the noise seen by the system changes (through the evolution of the bath operators $B_i$ in the Heisenberg picture). A slowly evolving noise requires then a small $\phiB$. Tracing back to the original calculation, we see that part of the pre-factor of 12 of $\phiB$ is the ``4" for the length of the PDD sequence; a longer sequence will have a larger pre-factor and hence a more stringent requirement that $\phiB$ is small, consistent with our interpretation here and our standard understanding of DD.
+
+\blue{(To be edited and merged with the new text.) }
+%We note the following inequalities:
+%\begin{align}\label{eq:errph-strict}
+%    \max_{i\in\{1,2,3\}} \norm{B_i}\le \norm[\Big]{\sum_{i=1}^3 \sigma_i \otimes B_i} \le \sum_{i=1}^3 \norm{B_i}.
+%\end{align}
+%The proof is given in Appendix~\ref{app:norm-ineq}. We use these bounds to derive a ``strict condition''. first, 
+%\begin{align}
+%\norm{\Opdd\up{2}(\Omega)} &\le
+%4\norm{[B_0,B_1]} +2\norm{\upi [B_0,B_2] +\{B_1,B_3\}} \notag \\
+%&\le 8 \alpha \norm{B_1} + 4 \alpha \norm{B_2} + 4\norm{B_1}\norm{B_3} \notag\\
+%&\le 12\alpha\beta +4\beta^2,
+%\end{align}
+%we then bound the last line by $\beta$ to arrive at: 
+%\begin{equation}\label{eq:pdd-region-strict}
+%    12\alpha + 4\beta \le 1.
+%\end{equation}
+\gray{
+On the other hand, the inequalities (\ref{eq:errph-strict}) 
+inspires use to use the following approximation for the error phase: \red{(The following is exactly true, not just approximately so, up to these factors of 2 that can be fixed -- but don't matter for the final inequality for the threshold condition -- for the Hilbert-Schmidt (H-S) induced norm. What is the norm used in producing Fig.~\ref{fig:pdd-region}? If that was the H-S norm, that would explain why this version of the inequality works well.)}
+\begin{equation}\label{eq:errph-approx}
+    \norm[\Big]{\sum_{i=1}^3 \sigma_i \otimes B_i} \approx \sqrt{\sum_{i=1}^3 \norm{B_i}^2}.
+\end{equation}
+Such approximation is valid up to a factor $\in[1/\sqrt{3},\sqrt{3}]$.
+This approximation allows us to derive an ``approximate condition''. 
+We estimate
+\begin{align}\label{eq:beta2-pdd-estimate}
+\beta_\mathsf{PDD}^2 & \approx
+\norm{-4\upi  [B_0,B_1]}^2 +\norm{-2\upi  [B_0,B_2] - 2 \{B_1,B_3\}}^2 \notag \\
+&\le (8\alpha \norm{B_1})^2 + (4\alpha\norm{B_2} + 4\norm{B_1}\norm{B_3})^2,
+\end{align}
+Defining $x_i\equiv\norm{B_i}/\beta$, then upper-bounding the r.h.s.\  by $\beta^2$ requires
+\begin{equation}\label{eq:PDD-optimization}
+\max_{\mathclap{x_1^2+x_2^2+x_3^2=1}} \  (2 \alpha x_1)^2 + (\alpha x_2 + \beta x_1 x_3)^2\le \frac{1}{16}.
+\end{equation} 
+Solution of this constrained optimization problem leads to:
+\begin{equation}\label{eq:pdd-region}
+\begin{aligned}
+\Bigl(\frac{\beta}{\sqrt{3}}\le \alpha \le \frac{1}{8} \Bigr)
+\ \mathrm{or}\ \Bigl(10 \alpha ^2+\frac{9 \alpha ^4}{\beta ^2}+\beta ^2\leq \frac{1}{4}\Bigr). 
+\end{aligned}   
+\end{equation}
+This set of inequalities automatically implies (\ref{eq:pdd-region-strict}),
+it gives a broader but less confident condition due to the approximation used
+for the error phase.
+
+
+The criteria (\ref{eq:pdd-region-strict}) and (\ref{eq:pdd-region}) each determines a region in the $(\alpha,\beta)$ parameter space where noise suppressing is achieved using the leading order Magnus term. 
+But in order for the calculations to make sense, we have assumed that the Magnus series converge absolutely. According to (\ref{dd:Magnus-abs-converge}), the necessary condition here is $4 \norm{\Omega}_\infty   < \xi$.
+Since $\norm{\Omega} \le \alpha +\beta$, we may use 
+a more stringent convergence bound:
+\begin{equation}\label{dd:PDD-magnus-abs}
+    \alpha +\beta \le \frac{1}{4}.
+\end{equation}
+
+To examine the accuracy of the two theoretical bounds, we perform numeric tests as a verification. We first randomly generate  four $2\times 2$ Hermitian matrices for the bath operators satisfying the normalization condition in \Eqref{eq:bathops-norm}, then simulate the PDD protocol and use matrix logarithm to find the actual $\Opdd$ and error phase $\beta_\mathsf{PDD}$.  For each fixed $(\alpha,\beta)$ point, we numerically maximize the error phase reduction ratio $\beta_\mathsf{PDD}/\beta$ over 1000 random instances. The result is presented in \Figref{fig:pdd-region}, where a point in blue color represents a greater-than-one ratio and  yellow color represents smaller-than-one ratio. Thus the graph reflects the true noise suppressing condition by the continuous yellow-colored region.
+We also plot the boundaries for the two theoretical noise suppression region from (\ref{eq:pdd-region-strict}) and (\ref{eq:pdd-region}), together with the absolute convergence region (\ref{dd:PDD-magnus-abs}) for comparison. 
+
+\begin{figure}
+\includegraphics[width=0.8\linewidth]{pdd-ideal-region}
+\caption{The noise reduction ratio $\beta_\sDD/\beta$ obtained through maximization over random bath operators plotted in the $(\alpha,\beta)$ parameter plane. In comparison, the theoretical boundaries for noise reduction are also plotted, with dotted red line for (\ref{eq:pdd-region-strict}) and solid red line for (\ref{eq:pdd-region}), also with the boundary for the absolute-convergence condition (\ref{dd:PDD-magnus-abs}) in dashed green line. Note the ranges for $\alpha$ and $\beta$ are chosen differently for better visual effect.}
+\label{fig:pdd-region}
+\end{figure}
+
+As long as the two-component norm of the free evolution Hamiltonian falls in the yellow region on the lower-left corner, the idealist PDD scheme is guaranteed to work, in the sense of reducing the error phase. This reflects the fundamental ``small noise'' assumption of DD. From the numerical results, we learn that the bound by the ``strict condition'' from (\ref{eq:pdd-region-strict}) is too loose compared with the ``approximate condition'' (\ref{eq:pdd-region}), which works surprisingly well in reflecting the true boundary of the noise-reduction region. The faithfulness of the latter bound is particularly striking considering the points beyond the absolute-convergence boundary (above the green dotted line), where our derivation should be unreliable in principle. An explanation is that the absolute-convergence criteria (\ref{dd:PDD-magnus-abs}), sufficient but not necessary, is a loose one and the leading order Magnus series works well beyond the region predicted by this inequality. This piece of evidence boosts our confidence in using the leading order Magnus term as approximation in the following parts of this work. But for safety, the absolute convergence region will also be indicated. 
+}
+
+
+
+%%%%%%%%%
+\subsection{Noisy pulses}
+Above, we treated the DD pulses in an ideal manner, with $P_i$s as instantaneous, noise-free gates. In practice, of course, $P_i$s are noisy. Without loss of generality, we can write a noisy pulse $\widetilde\cP_i$, now regarded as a map on states, not just a unitary operator, as $\widetilde\cP_i\equiv \cP_i\circ\cE_i$ with $\cE_i\equiv \cP^{-1}\circ\widetilde\cP_i$, and $\cP_i(\cdot)\equiv P_i(\cdot)P_i^\dagger$. $\cE_i$ describes the noise associated with the $i$th pulse. For the finite-width pulses analyzed in past DD papers \red{(cite)}, $\widetilde\cP_i$ simply describes the joint evolution of the system and bath according to the Hamilton operator $H+H_{\mathrm{DD},i}$, where $H$ is the bare system-bath Hamilton operator (i.e., no DD) while $H_{\mathrm{DD},i}$ generates the DD pulse $P_i$, so that $H$ leads to the pulse imperfections in the course of its application. Here, we allow for more general noise, including control noise that does not originate from $H$. $\widetilde\cP_i$---and consequently $\cE_i$---can be taken as a completely positive (CP) and trace-preserving (TP) map on the system and the bath, a description that captures most cases in practice. 
+
+If $\cE_i$ is a unitary map, then $\cE_i(\cdot)=V_i(\cdot)V_i^\dagger$ with $V_i$ a unitary operator that we write as $V_i\equiv \upe^{-\upi\tau\Gamma_i}$, where $\Gamma_i$ is a Hermitian operator to be viewed as the effective Hamilton operator generating the noise in the $i$th pulse over the time interval $\tau$. Even for a non-unitary CPTP map $\cE_i$, we can dilate to include an ancillary system such that $\cE_i$ can be viewed as a unitary map on the system-bath-ancilla composite, with $\cE_i$ arising after tracing over the ancilla. For simplicity of the analytical treatment below, we will always assume this dilation, and treat all noise as unitary $\cE_i$ with an effective Hamilton operator $\Gamma_i$. The bath is then assumed to include the ancillary system needed for the dilation. With the noisy pulses, the evolution of the system and bath under DD thus becomes
+\begin{align}
+\widetilde U_\mathrm{DD}&\equiv P_K\upe^{-\upi\tau\Gamma_K}\upe^{-\upi\tau H}P_{K-1}\ldots\\
+&\qquad\ldots P_2\upe^{-\upi\tau\Gamma_2}\upe^{-\upi\tau H}P_1\upe^{-\upi\tau\Gamma_1}\upe^{-\upi\tau H}\equiv \upe^{-\upi\widetilde\Omega_\mathrm{DD}}.\nonumber
+\end{align}
+$\Gamma$ can be taken to have no pure-bath term, i.e., it does not have a term proportional to $I$ on the system. Such a term will give rise only to an overall phase on the system and cannot result in observable imperfections in the pulses.
+\blue{(To be merged with new text.)}\gray{ From its definition, we know that an extension of an irrelevant Hilbert space does not change the error phase.
+So the change in the error phase results from the noise in the gates rather than the choice of ancilla space. }
+
+We can examine the simplest case where the noise is gate-independent, i.e., $\Gamma_i=\Gamma\,\forall i$. The problem reduces to the ideal DD case by replacing $H$ in our earlier analysis by $\widetilde H$ such that
+\begin{equation}
+\upe^{-\upi\tau \widetilde H}=\upe^{-\upi\tau\Gamma}\upe^{-\upi\tau H}.
+\end{equation}
+This calls immediately for the BCH formula for getting $\widetilde H$ in terms of $\Gamma$ and $H$,
+\begin{equation}\label{eq:BCH_Htilde}
+\widetilde H = \Gamma +  H - \tfrac{\upi}{2} [\Gamma,H]
+    -\tfrac{1}{12}\bigl([\Gamma,[\Gamma,H]]-[H,[\Gamma,H]]\bigr) + \cdots,
+\end{equation}
+where higher-order terms are nested commutators of $\Gamma$ and $H$.
+Assuming $\Gamma$ and $H$ small, as required for DD to work, we can truncate the series and write $\widetilde H=\widetilde H_\mathrm{B}+\widetilde H_\mathrm{SB}\simeq \Gamma+H$ with $\widetilde H_\mathrm{B}\simeq H_\mathrm{B}$ the bath-only term, and $\widetilde H_\mathrm{SB}\simeq \Gamma+H_\mathrm{SB}$. 
+
+With this, we can estimate the error phase relevant for this noisy-pulse situation under the PDD scheme. To do that, we simply need to replace $\phiSB\equiv \tau\Vert H_\mathrm{SB}\Vert$ in Eq. ~\eqref{eq:Opdd2} by $\tau\Vert \Gamma +H_\mathrm{SB}\Vert\leq \eta + \phiSB$, for $\eta\equiv \tau\Vert\Gamma\Vert$, giving us the estimate $\ep\lesssim 12\phiB(\eta+\phiSB)+4(\eta+\phiSB)^2$. For PDD to work, then, it suffices to require
+\begin{equation}
+12\phiB(\eta+\phiSB)+4(\eta+\phiSB)^2\leq \phiSB.
+\end{equation}
+This gives us the condition for the break-even point, a joint requirement on $\phiB$, $\phiSB$, and $\eta$ such that PDD improves on the no DD case.
+
+
+\red{[The original analysis by Jiaan (?)---see previous version of the draft---assumes that $\Gamma$ acts only on the system + ancilla, not on the bath. This is actually not a good assumption. In general, $\Gamma$ acts on all three. Having $\Gamma$ not act on the bath is appropriate for purely gate-control noise, but excludes then the older DD analyses that treats finite-width pulses with imperfections arising from the same joint evolution of the system with the bath from $H_\mathrm{SB}$. Both control noise and finite width of the pulses are important practical realities. We can insist on having $\Gamma$ describe only control noise and hence act only on system + ancilla, but then we should also put in the finite-width analysis on top of that, which is just as unavoidable as control noise, but that's not done right now in Jiaan's analysis.
+
+See if my simple analysis above suffices, without having to assume that $\Gamma$ acts only on system + ancilla, at least for the general bound before we specialize to a particular DD scheme. The $\widetilde H_\mathrm{SB}$ result gives the same as Jiaan's $\phiSB(\equiv\beta)$ expression. But because I am taking only the lowest order term, I only have $\widetilde H_\mathrm{B}\simeq H_\mathrm{B}$. \textbf{Please see if you can add in} $\eta$ corrections to it without resorting to requiring $\Gamma$ act only on the system + ancilla and not the bath. It's probably not important if we can't, but it's worth at least a  bit of thought.]}
+
+The above analysis is conceptually simple and applies to all DD schemes. The resulting bound is general, but could be suboptimal for a specific DD scheme and a specific type of pulse imperfection. Below, we examine \red{three (?)} concrete examples of imperfections  for PDD. \red{(Suggestion: Add a third example where we discuss unitary control noise together with finite-width pulses. When the unitary control noise vanishes, we should recover past known results having to do with finite-width pulses. Finite-width pulses are modeled easily (see past DD analyses): Rather than writing $P_i$ as a single unitary gate, we write $P_i=\upe^{-\upi \tau_0 H_i}$, where $\tau_0$ is the pulse duration---the finite width--- and $H_i$ is the driving Hamilton operator that generates the pulse $P_i$. This $H_i$ then is added to the total system-bath Hamilton operator during the pulse duration.)}
+
+
+
+
+%%%%
+\subsubsection{Unitary control noise}\label{sec:gate-indepNoise}
+Consider a unitary error in the control of the gate, resulting in a noisy pulse 
+\begin{equation}
+\widetilde P_i=P_i\upe^{-\upi\tau\vec\theta\cdot\vec\sigma}.
+\end{equation}
+where $\vec\sigma\equiv (X,Y,Z)=(\sigma_1,\sigma_2,\sigma_3)$, and $\vec \theta\equiv (\theta_1,\theta_2,\theta_3)$ with $\theta_i$ real constants---taken as small for weak noise---that parameterize the unitary error. For simplicity, we assume gate-independent noise, so the same $\vec\theta$ applies to all pulses. In this situation, $\Gamma\equiv \vec\theta\cdot\vec\sigma$ acts only on the system. This can arise from, for example, a systematic calibration error in the pulse control leading to a consistent over or under rotation. One could also include in this model a random over/under-rotation by drawing $\theta$ from a specified distribution that describes the randomness in the control. Here, we restrict to the systematic error case and note only that our analysis applies to this random error situation simply by doing an average over the distribution of $\vec\theta$.
+
+We can write the effective noisy Hamilton operator as
+\begin{equation}
+\widetilde H\equiv \vec\theta\cdot\vec\sigma+H',
+\end{equation}
+where $H'\equiv \sum_{i=1,2,3}\sigma_i\otimes B_i'$s, with $B_i'$ to be related to the $B_i$s in the original $H$. Keeping up to the second-order term in the BCH series of Eq.~\eqref{eq:BCH_Htilde}, straightforward algebra yields $B_0'\simeq B_0$, and $B_i'\simeq B_i+\sum_{jk=1,2,3}\epsilon_{ijk}\theta_j B_k$, for $i=1,2,3$, and $\epsilon_{ijk}$ is the completely anti-symmetric tensor.
+To lowest order in $\vec\theta$, we can regard $(B_1',B_2',B_3')$ as a rotation of $(B_1,B_2,B_3)$ with respect to the $\vec\theta$-axis. 
+\blue{(To check this and merge with the new text.)} \gray{On the other hand,  we know from its definition that the error phase is the invariant with respect to a basis change of the system, which acts as a 3D rotation on the vector $(B_1,B_2,B_3)$.
+As a result, the error phase of $\Omega'$ remains identical to $\beta$ up to the second order in $\theta$.}
+
+\gray{To conclude, the two-component norm of $\Omega'$ can be estimate by
+\begin{equation}\label{eq:eff-Hami-tcp}
+    \opnorm{\Omega'} = \begin{pmatrix}
+        \alphat \\
+        \beta'
+    \end{pmatrix}
+    \le 
+    \begin{pmatrix}
+        \alpha + \frac{1}{3}\theta\beta^2  \\
+        \beta + \theta^2 \beta
+    \end{pmatrix}.
+\end{equation}
+Assuming the noise to be small, we may only use the leading order 
+approximation, knowing that it is accurate to the second order. 
+}
+\red{Where do the $\widetilde\alpha$ and $\beta'$ expressions come from? I see that the $\widetilde\alpha$ one comes from setting $\Gamma_\mathrm{SA}=\tau\vec\theta\cdot\vec\sigma$ and hence $\eta\equiv\tau\Vert\Gamma_{\mathrm{SA}}\Vert\propto \theta$, and then plugging that into Eq. (69) of the earlier draft, with $\eta_0=0$. But why is the proportionality constant $1$? What is the norm used here?
+Same question for $\beta'$: Where does the coefficient for the $\theta^2\beta$ come from? I'm understanding that we don't have a linear-in-$\theta$ term because of the rotation argument above, but that does not explain the coefficient of 1 for the quadratic term. Is it just a matter of algebra using the BCH formula for the next-order terms?
+
+Also, how is $\theta$ related to the vector $\vec \theta$? What norm is being used for this?
+}
+
+\noindent\blue{(I'm holding off on editing the rest of this section until I get better clarity on the above questions. Retain only the PDD discussion here; CDD discussion goes into the next section. Also need to put back the argument leading up to Eq.~(69) of the earlier draft for when $\Gamma$ acts purely on the system and not on the bath.) }
+
+%%%%
+\subsubsection{Unitary control noise with finite-width pulses}
+\red{(To add?)}
+
+
+%%%%
+\subsubsection{Gate-dependent noise}
+\blue{(To consider whether we want to combine the gate-indep and gate-dep noise sections. Treat gate-indep noise case as a special case of gate-dep noise.)}
+Lastly, we consider gate-dependent noise, where $\cE_i$ can depend on $i$. Rather than having $\cE_i$ to be different for every $i$, we assume---as is typical in practical situations---that the pulse noise depends on what gate the pulse corresponds to, not where it occurs in the DD sequence. For PDD, the sequence comprises only $X$ and $Z$ gates. This amounts to writing the noisy $X$ and $Z$ pulses as
+\begin{equation}\label{eq:gatedep-noise}
+\widetilde{X} = X \upe^{-\upi\tau \Gamma_X}\quad\textrm{and}\quad \widetilde{Z} = Z \upe^{-\upi \tau\Gamma_Z}.
+\end{equation}
+Here, $\Gamma_X$ and $\Gamma_Z$ can generally act on the system and bath (including possibly an ancillary system). Both are assumed to have no pure-bath only term, as any such term adds only a global phase on the system and hence of no consequence.
+We define
+\begin{equation}\label{eq:Omega-gatedep}
+\upe^{-\upi \tau\widetilde H_k}\equiv \upe^{-\upi \tau\Gamma_k}\upe^{-\upi\tau H},
+\end{equation}
+for $k=X$ and $Z$. The time evolution over the noisy PDD sequence then becomes
+\begin{align}
+\upe^{-\upi \widetilde\Omega_\mathrm{PDD} }&= Z \upe^{-\upi \tau\widetilde H_Z}   X \upe^{-\upi \tau\widetilde H_X} Z \upe^{-\upi \tau\widetilde H_Z} X \upe^{-\upi \tau\widetilde H_X}  \\
+& = \upe^{-\upi\tau Z\widetilde H_ZZ} \upe^{-\upi\tau Y\widetilde H_XY} \upe^{-\upi\tau X\widetilde H_ZX} \upe^{-\upi\tau\widetilde H_X}.\nonumber
+\end{align}
+We can now apply the Magnus formula \Eqref{eq:Magnus-12} \blue{(fix the eq.~reference)} to evaluate $\widetilde\Omega_\mathrm{PDD}$.
+Writing $\widetilde H_X \equiv \sum_i \sigma_i \otimes B'_i$ and 
+$\widetilde H_Z\equiv \sum_i \sigma_i \otimes B''_i$ , the first two Magnus terms are, after some straightforward algebra,
+\begin{align}\label{eq:PDD-gatedep-Mag1}
+\widetilde{\Omega}_\mathrm{PDD}^{(1)} 
+&= 2\tau{\Bigl[\sigma_0 \otimes (B'_0 + B''_0) + \sigma_2 \otimes (B_2'-B_2'')\Bigr]} \\[1ex]
+\widetilde{\Omega}_\mathrm{PDD}^{(2)}& = \notag\tau^2\Bigl[
+\sigma_0 \otimes\upi([B'_0,B''_0]+\![B'_1,B''_1]-\![B'_2,B''_2]-\![B'_3,B''_3]) \\[0.5ex]
+&\! + \sigma_1 \otimes 
+(-\upi[B_0'{+}B_0'',B_1'{+}B_1'']+\{B_2'{-}B_2'', B_3'{-}B_3''\}) \notag \\[0.5ex]
+ &\!+ \sigma_2 \otimes 
+(-\upi[B_0',B_2'']\!-\upi\,[B_0'',B_2'] -\! \{B_1',B_3''\}
+ -\!\{B_1'',B_3'\} ) \notag\\[0.5ex]
+ &\!+\sigma_3 \otimes 
+(\upi[B_0'{+}B_0'',B_3''{-}B_3'] + \{B_1'{+}B_1'',B_2''{-}B_2'\})\Bigr].\nonumber
+%\label{eq:PDD-gatedep-Mag2}
+\end{align}
+When the noise is gate-independent, i.e., when $\Gamma_X=\Gamma_Z$ and hence $\widetilde H_X=\widetilde H_Z$, these two expressions reduce back to the ideal PDD situation, consistent with our earlier discussion in Sec.~\ref{sec:gate-indepNoise} that the gate-independent imperfections appear only in the third-order Magnus term. \blue{(Check for consistency with previous section---this should reduce back to the gate-independent noise case. Should make a remark in the gate-indep noise section that the Pauli averaging also averages away the gate noise to first order. Why is the second-order term also the same as the ideal case? I have checked that it is so, but it is right now somewhat unclear to me; to revisit and explain this in the earlier section.)} 
+
+%For this gate-independent case, $\widetilde\Omega_\mathrm{PDD}^{(2)}$ reduces to
+%\begin{align}
+%\widetilde{\Omega}_\mathrm{PDD}^{(2)} &= \notag\tau^2\Bigl[
+% \sigma_1 \otimes 
+%(-\upi2[B_0',B_1] \notag \\
+% &~~\quad+ \sigma_2 \otimes 
+%(-\upi2[B_0',B_2']-2\{B_1',B_3'\}
+%) \notag\\[0.5ex]
+% &~~\quad+\sigma_3 \otimes 
+%(\upi[B_0'{+}B_0'',B_3''{-}B_3'] + \{B_1'{+}B_1'',B_2''{-}B_2'\})\Bigr].
+%\end{align}
+%
+With gate-dependent noise, however, the coupling part of the first-order Magnus term no longer vanishes. \blue{(Note that this means that this is a genuinely new effect, different from finite-width analyses from earlier papers -- the finite-width noise is all gate-independent, since the noise is generated by $H$ itself. And this is more significant, since it appears already at first order. To emphasize this point in the text.) }
+The term that acts nontrivially on the system in $\widetilde \Omega_\mathrm{PDD}^{(1)}$ is proportional to $B_2'-B_2''$. From Eq.~\eqref{eq:Omega-gatedep} and the BCH formula, we can estimate 
+\begin{equation}
+\widetilde H_X-\widetilde H_Z\simeq (\Gamma_X-\Gamma_Z)-\tfrac{\upi}{2}[\Gamma_X-\Gamma_Z,H].
+\end{equation}
+When the gate noise is at least of similar strength as the noise from $H_\mathrm{SB}$---the gate noise is in fact stronger than the background noise in many experiments---this difference is dominated by the first term $\Gamma_X-\Gamma_Z$. Analogous to the gate-independent noise situation, we take $\eta\equiv \tau \max\{\Vert \Gamma_X\Vert,\Vert \Gamma_Z\Vert\}$. Assuming no particular relation between the $X$ and $Z$ noise, we expect $\tau\Vert\Gamma_X-\Gamma_Z\Vert\sim 2\eta$, which translates into an estimate of $\tau\Vert B_2'-B_2''\Vert \sim 2\eta$. In fact, we can upper bound $\tau\Vert B_2'-B_2''\Vert\leq 2\eta$, so that the error phase for PDD can be estimated as $\ep\simeq 2\tau\Vert B_2'-B_2''\Vert\leq 4\eta$, 
+
+With this estimate, the condition for the break-even point for PDD under such gate-dependent noise can be written as 
+\begin{equation}
+4\eta\leq\phiSB.
+\end{equation}
+
+ \begin{figure}
+\includegraphics[width=0.45\linewidth]{pdd-gatedep-thres}\quad
+\includegraphics[width=0.45\linewidth]{cdd-gatedep-thres}
+\caption{\red{(Which one is for PDD? Why do some points violate the threshold condition? Is it because of numerical---sampling?---inaccuracies?) }The noise threshold compared for PDD and $\mathrm{CDD}_3$ simulated at $\alpha=0$. The red solid line represents the noise threshold prediction $\eta\le\beta/4$. different colors represents different levels of noise reduction ration $\beta_\sDD/\beta$ after numerically maximized over random bath operator instances.
+\label{fig:cdd-gatedep-thres}}
+\end{figure}
+
+\red{(Please provide more details for the figure, on how the numerics are done. For example, what random bath operators are we referring to? The $B'$s and $B''$s? What do you mean by ``random" here? Uniform distribution over what? Initial system and bath states? etc.) }\gray{In \Figref{fig:cdd-gatedep-thres}, we simulate both PDD and $\mathrm{CDD}_3$ with the gate-dependent noise model. We find that our prediction works pretty well. 
+}
+
+
+
+
+%%%%%%%%%
+\subsection{Different measures}
+\blue{(To come.)}
+\red{(Do I understand correctly that all the numerics for this are for PDD only?)}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Accuracy threshold for concatenated DD}
+\blue{(Generalization of the previous PDD section; CDD content from Secs.~IVA-D of draft by Jiaan \& Xiansong. The main goal here is to show that an accuracy threshold for DD, under the CDD scheme for scaling up, fails to exist. This means that there is a maximum level for CDD, beyond which further levels only make things worse. To discuss the differences from using different measures.)}
+
+Next, we turn to the situation of CDD. We can certainly discuss the break-even point for a particular $\CDDn$ sequence, treating it simply as a ``flattened" sequence of pulses, and ask when the error phase after $\CDDn$ is smaller than $\phiSB$ as was done for PDD in the previous section. \red{(I realised that the CDD threshold analysis in the earlier draft is actually all about this only. We can consider adding some part of the content that we already have to the previous section. However, we still need to add this accuracy threshold analysis as described below -- to me, this accuracy threshold is the interesting angle from the perspective of seeing CDD as a procedure for scaling up the basic DD scheme. This exactly mirrors the break-even point versus accuracy threshold discussion in quantum error correction and fault tolerance theory (which offers a way to scale up to better protection).)} 
+
+However, what is more interesting is the question of the so-called accuracy threshold for CDD.
+As described in the Preliminaries section, CDD tries to achieve better and better noise removal by concatenating the same basic DD scheme---PDD for our discussion here---to higher and higher levels. Here, we are interested in understanding how the noise removal improves as the DD scheme scales up. In fault-tolerant quantum computing, there is the concept of a fault tolerance noise threshold, a strength of the noise below which scaling up the QEC code leads to improved protection against noise, and hence more accurate quantum computation. This threshold is referred to as the accuracy threshold. Here, we ask the analogous question of CDD, whether there is a condition on the noise parameters of the problem such that increasing the CDD level always leads to improved noise removal capabilities. An accuracy threshold for CDD exists if the parameters governing the noise of the situation satisfying a condition (usually one where the noise is weak enough) such that 
+\begin{equation}\label{eq:thresCond}
+\Phi_{\mathrm{SB},n+1}\leq\Phi_{\mathrm{SB},n}\qquad\forall n=1,2,\ldots.
+\end{equation}
+
+Below, we examine this for both the ideal CDD case where pulses are perfect, and the noisy CDD case where imperfections in the pulses are allowed.
+
+%%%%%%%%%
+\subsection{Ideal case}
+We first consider CDD with perfect pulses. A detailed analysis (see App.~\ref{app:CDD}) yields the error phases for $\CDDn$ as
+\begin{align}
+\Phi_{\mathrm{B},n}&\simeq 4^n\phiB(\tau_0),\\
+\Phi_{\mathrm{SB},n}&\lesssim 2^{n(n+1)}\phiB(\tau_0)^{n-1}\phiSB(\tau_0)(2^n\phiB+\phiB+\phiSB),\nonumber
+\end{align}
+where, to remind the reader, $\phiB\equiv\phiB(\tau_0)\equiv\tau_0\Vert \HB\Vert$, and $\phiSB\equiv\phiSB(\tau_0)\equiv\tau_0\Vert\HSB\Vert$, noting the dependence of both quantities on $\tau_0$, the time interval between two consecutive pulses in the CDD sequence. \red{(To reconsider: We need both an upper and lower bound for $\Phi_{\mathrm{SB},n}$, which we have from the estimator [Eq.~\eqref{eq:lu}]. For use in Eq.~\eqref{eq:thresCond}, we should have the lower bound on the RHS of that condition, and upper bound expression on the LHS, for a sufficient condition.) }As mentioned in the Preliminaries section, $\CDDn$ achieves $n$th-order decoupling. This can be understood from the error phase expression: $\Phi_{\mathrm{SB},n}$ after $\CDDn$ is of order $\phi^{n+1}$, for $\phi\sim\phiB, \phiSB$. That $\phiB$ enters the error phase should again be of no surprise---as in the PDD case, $\phiB$ determines how quickly the noise seen by the system evolves, and hence affects the efficacy of DD which does a good elimination of the noise only when the noise remains nearly unchanged for the full DD sequence. 
+
+What is perhaps more surprising is the appearance of factors of $2^n$ and $2^{n^2}$ in $\Phi_{\mathrm{SB},n}$, a new feature in the CDD case \red{(Do these factors also appear in the Khodjasteh-Lidar analysis? Please check and put in a sentence about this.)}. For fixed $\tau_0\equiv \tau$ as $n$ increases (e.g., if $\tau$ is the experimental limit for the switch time between consecutive pulses), such factors mean that the error phase eventually increases for large enough $n$: The exponentially decreasing $\phi^n$ factor is eventually overcome by the super-exponentially increasing $2^{n^2}$ factor. This means there is no accuracy threshold, i.e., there is no level of noise that is weak enough such that $\Phi_{\mathrm{SB},n+1}\leq\Phi_{\mathrm{SB},n}$ for all $n$. Instead, there is an maximal useful level of concatenation level, beyond which further concatenation actually increases the noise seen by the system. Fig.~\ref{fig:estimator-size} plots this situation of fixed $\tau_0$, for increasing concatenation level $n$. We observe the initial decrease of $\Phi_{\mathrm{SB},n}$ as $n$ increases, but this turns around eventually. 
+
+\begin{figure}
+    \includegraphics[trim=5mm 0mm 0mm 0mm, clip, width=\columnwidth]{cdd-estimator}
+    \caption{\blue{(To merge with new text; no mention of estimators in current new text.) }The estimator size for $\widehat \alpha_n$ and the error phase $\widehat \beta_n$ as a function of concatenation level $n$. In the graph, the bare Hamiltonian is set to take on the value $\alpha=0.01$ and $\beta=0.01$.}
+    \label{fig:estimator-size}
+\end{figure}
+
+\red{(To reconsider with my lower/upper bound comment above.) }\gray{For higher concatenation level to make sense, increasing concatenation level should decrease the error phase. To derive a sufficient condition for the maximal concatenation level, we compare the error phase upper bound in \Eqref{eq:cdd-errph-bound1} of the  $\mathrm{CDD}_n$ to that of the $\mathrm{CDD}_{n+1}$,
+\begin{equation*}
+\frac{2^{(n+1)(n+2)}\alpha^{n}\beta (2^{n+1} \alpha+ \alpha + \beta)}{2^{n(n+1)}\alpha^{n-1}\beta (2^n \alpha+ \alpha + \beta)} \le 4^{n+1}2\alpha.
+\end{equation*}
+The maximal level is reached when there is a contraction.
+By requiring the r.h.s.\  to be smaller than 1, we obtain the bound for the maximal concatenation level:
+\begin{equation}\label{eq:cdd-max-level}
+n_{\max}\le -\log_4\alpha-\frac{3}{2}.
+\end{equation}
+}
+
+Note that the existence of a maximal useful concatenation level does not technically contradict the statement that 
+higher-order decoupling is achieved by higher level CDD. Using decoupling order to quantify the degree of noise removal requires, in the first place, the convergence of the Magnus series, so that the $(n+1)$th- and higher-order terms in the series are a small correction to the first $n$ terms. However, if the DD scheme is designed such that the total time for the sequence grows exponentially with $n$, as is the case for CDD if $\tau_0$ is fixed as $n$ increases, eventually, we exceed the convergence criterion and the decoupling order stops being a reasonable indicator of successful noise removal. 
+
+We can, however, analyze a different situation: to have fixed $\tau_n\equiv T$, so that the CDD sequence takes the same amount of time, regardless of $n$. This requires $\tau_0=\frac{T}{4^n}$ for each $n$, so that the pulses are applied at shorter and shorter time intervals as the concatenation level increases. This can be the practical choice if one is doing computation where computational gates, which can only be applied at the end of a complete DD sequence in order to not interfere with the noise averaging process, have to be applied at a particular clock rate. Increasing $n$ to increase the noise removal capabilities must not increase the total time taken for the DD sequence. This requires, of course, the ability to do faster and faster pulse switching.
+
+In this case, it is more illuminating to make use of $\tau_0\Vert \HB\Vert$ and $\tau_0\Vert\HSB\Vert$, in place of $\phiB$ and $\phiSB$, in our estimate of the CDD error phases, so that that the $n$ dependence in $\tau_0$ is explicit. \red{(I suggest we analyze this case as well, to see if an accuracy threshold exists. Jiaan - could you take a quick look at this?)}
+Eventually, of course, this becomes limited by the technological---not fundamental---constraint of how fast we can switch between pulses, and thus how short $\tau_0$ can be in an experiment.
+
+
+%%%%%%%%%
+\subsection{Noisy pulses}
+\red{(To add.)}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\blue{(To come.)}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\acknowledgments
+\blue{(Acknowledge Gu Yanwu, Jonas Tan, and Ryan Tiew, who did some of the first calculations of the breakeven points for PDD. Yanwu should be asked if he wants to be a co-author.)}
+
+
+
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analyzing $\CDDn$}\label{app:CDD}
+\blue{(To be edited.)}
+\gray{
+It was suggested by the authors of CDD that the decoupling order for $\mathrm{CDD}_n$  is $n$ \cite{khodjasteh2005fault}. This statement is correct, but their proof is logically flawed. Given its importance, here we explain why the original proof is insufficient and  provide a rigorous proof for the decoupling order.
+
+
+For the generic $\mathrm{CDD}_n$, it is infeasible to flatten out the gates and calculate the combined Magnus series directly. 
+Instead it is easier to study the iteration map 
+\begin{equation}\label{eq:CDD-update}
+    \Omega_{(n)} = \Opdd(\Omega_{(n-1)}) = \sum_{m=1}^\infty \Opdd\up{m}(\Omega_{(n-1)}),
+\end{equation}
+where the update map $\Opdd$ is defined in \Eqref{eq:PDD-update}.
+Backtracking the map from level $n$ to level $0$, we have
+$\Omega_{(n)} = \Opdd\circ \cdots \circ \Opdd(\Omega)
+\equiv(\Opdd)^n(\Omega)$.
+In the end, the effective Hamiltonian $\Omega_{(n)}$ can be expanded as:
+\begin{equation}\label{eq:CDD-magnus}
+    \Omega_{(n)} =\sum_{m=1}^\infty \Omega_{(n)}\up{m}(\Omega),
+\end{equation}
+where $\Omega_{(n)}\up{m}$, with the size of  $\cO(\norm{\Omega}^m)$, is the $m$th order Magnus term in $\Omega$ . Notice that this series is different from the series in \Eqref{eq:CDD-update}, where
+each $\Opdd^{(m)}$ generate the $m$th order Magnus term in $\Omega_{(k-1)}$.
+
+
+To calculate the leading order Magnus term in $\Omega$, we do not directly solve $\Omega_{(n)}$ but instead constructing an estimator $\Ohat_{(n)}$ which is easier to solve. 
+Formally we have an estimator-error pair $(\Ohat_{(n)},\delta\Omega_{(n)})$ such that
+\begin{equation}\label{eq:est+err}
+    \Omega_{(n)} = \Ohat_{(n)} + \delta\Omega_{(n)}.
+\end{equation}
+The estimator $\Ohat_{(n)}$  is faithful if it captures the leading order behavior of $\Omega_{(n)}$. This is defined separately for the pure-bath part and the coupling part, as they are of different orders.
+In other words, a faithful estimator should contain the first nonzero pure-bath part and the first nonzero coupling part of the series (\ref{eq:CDD-magnus}).
+An equivalent statement is that the error must be of higher order than the estimator. To quantify this statement, we take the two-component norm for both 
+$\delta\Omega_{(n)}$ and $\Ohat_{(n)}$, and demanding
+\begin{equation}
+\opnorm{\delta\Omega_{(n)}}\equiv
+\begin{pmatrix}
+\delta\alpha_{(n)}\\
+\delta\beta_{(n)}
+\end{pmatrix}
+\ll 
+\opnorm{\Ohat_{(n)}}\equiv\begin{pmatrix}
+\widehat\alpha_{(n)}\\
+\widehat\beta_{(n)}
+\end{pmatrix},
+\end{equation}
+where the comparison is implied for both components and should be understood by comparing the leading powers of the polynomials in $\alpha$ and $\beta$. 
+In essence, a ``smaller'' polynomial should have a larger leading power and thus is of higher order smallness. 
+We refer readers to Appendix~\ref{app:polynomials} for more rigorous descriptions on ordering polynomials by their leading powers.
+Furthermore, after taking the two-component norm and applying triangular inequality for \Eqref{eq:est+err}, we find,
+\begin{equation}\label{eq:lu}
+    \widehat\beta_{(n)}-\delta\beta_{(n)}\le  \beta_{(n)}\le \widehat\beta_{(n)}+\delta\beta_{(n)}.
+\end{equation}
+According to \Eqref{eq:nth-order-alternative}, the $n$th-order decoupling condition requires $\beta_{(n)}$ to be an $(n+1)$th order polynomial in $\alpha$ and $\beta$. It now suffices to show that \numcircled{1} $\widehat\beta_{(n)}$ is an $(n+1)$th order polynomial and \numcircled{2} the estimator is faithful.
+
+The original CDD paper (Ref.\cite{khodjasteh2005fault}) constructed an estimator by keeping the first two Magnus terms for each iteration step. In
+our notation:
+\begin{equation}
+    \Ohat_{(n)} \equiv (\Opdd\up{1} + \Opdd\up{2}) (\Ohat_{(n-1)}) = \big(\Opdd\up{1} + \Opdd\up{2}\big)^n (\Omega).
+\end{equation}
+With $\Opdd\up{1}, \Opdd\up{2}$ explicitly defined in \Eqref{eq:PDD-magnus-1} and \Eqref{eq:PDD-magnus-2}, and the starting point $\Ohat_{(0)}\equiv\Omega$,  the estimator can shown to be specified by the formula:
+\begin{align}\label{eq:cdd-estimator}
+\Ohat_{(n)} 
+={} & \sigma_0 \otimes 4^n B_0 \notag \\
++\ & \sigma_1 \otimes (-\upi)^{n} 2^{n(n+1)} \ad_{B_0}^{n}(B_1)\\ 
++\ & \sigma_2 \otimes (-\upi)^{n} 2^{n^2} \ad_{B_0}^{n-\!1}( \,[B_0,B_2] - \upi \{B_1,B_3\} \,). \notag
+\end{align} 
+After taking the two-component norm of the estimator, we have,
+\begin{equation}
+\begin{pmatrix}
+\widehat\alpha_{(n)}\\
+\widehat\beta_{(n)}
+\end{pmatrix}
+\simeq
+\begin{pmatrix}
+\alpha\\
+\alpha^{n} \beta +\alpha^{n-1} \beta^2
+\end{pmatrix},
+\end{equation}
+where $\simeq$ represents equal the leading powers as described in Appendix~\ref{app:polynomials}. 
+This verifies that $\widehat\beta_{(n)}$ is a an $(n+1)$th order polynomial.
+
+To complete the theory, it now remains to show that $\Ohat_{(n)}$ is indeed faithful. For simplicity, we make the recognition $\alpha\simeq\beta\simeq\Dt$.
+This change does not affect the criteria for $n$th order decoupling as the polynomial order is unchanged. To show $\delta\alpha_{(n)}$ and $\delta\beta_{(n)}$ are of higher order in $\tau_0$ compared to $\widehat\alpha_{(n)}$ and $\widehat\beta_{(n)}$, we claim that:
+\begin{equation}\label{eq:cdd-error-bounds}
+\begin{pmatrix}
+\delta\alpha_{(n)}\\
+\delta\beta_{(n)} 
+\end{pmatrix}
+\lesssim
+\begin{pmatrix}
+\Dt^3\\
+\Dt^{n+2} 
+\end{pmatrix}.
+\end{equation}
+We prove this assertion by mathematical induction.
+At $n=1$,  i.e.\ the PDD sequence, the error comes solely from the Magnus series truncation.
+Taking the two-component norm and applying triangular inequality:
+\begin{equation}
+\opnorm{\delta\Omega_{(1)}}\le\sum_{m=3}^\infty \opnorm{\Omega_{(1)}\up{m}}
+\simeq \opnorm{\Omega_{(1)}\up{3}} \lesssim
+\begin{pmatrix}
+\Dt^3\\
+\Dt^3
+\end{pmatrix}.
+\end{equation}
+By definition, the higher level error term $\delta\Omega_{(n+1)}$ can be 
+expressed with the lower level functions as:
+\begin{multline}\label{eq:error update}
+\delta\Omega_{(n+1)} 
+=\Opdd(\Omega_{(n)})-(\Opdd\up{1}+\Opdd\up{2})(\Ohat_{(n)})\\
+= \Opdd\up{1}(\delta\Omega_{(n)})+ \sum_{m=2}^\infty \Opdd\up{m}(\Omega_{(n)})-\Opdd\up{2}(\Ohat_{(n)}),
+\end{multline} 
+where we have used the fact that $\Opdd\up{1}$ is a linear map. Assuming  \Eqref{eq:cdd-error-bounds} holds for level $n$, we need to show $\opnorm{\delta\Omega_{(n+1)}}\lesssim(\Dt^3,\Dt^{n+3})$.
+The argument in the original CDD paper by Khodjasteh and Lidar for truncating the Magnus series have only showed that the higher order Magnus term is smaller by proving
+\begin{equation*}
+    \opnorm{ \sum_{m=3}^\infty\Opdd\up{m}(\Ohat_{(n)}) } \ll \opnorm{\Ohat_{(n+1)}}.
+\end{equation*}
+If we take $\delta\Omega_{(n)}=0$, \Eqref{eq:error update} would identity the l.h.s.\  of above as $\opnorm{\delta \Omega_{n+1}}$, then this inequality would indeed indicate that the error term is of higher order.
+However \Eqref{eq:error update} suggests that this argument is not sufficient: as
+the estimate error $\delta\Omega_{(n+1)}$ comes not only  from the truncation error of the same level, but also accumulates from the lower level error $\delta\Omega_{(n)}$. 
+To properly bound the size of the error term, we take the two-component norm on both sides of \Eqref{eq:error update}:
+\begin{equation}
+\begin{aligned}\label{eq:cdd-error-3terms}
+\opnorm{\delta\Omega_{(n+1)} }
+&\lesssim \opnorm{ \Opdd\up{1}(\delta\Omega_{(n)}) } + 
+\opnorm{\Opdd\up{3}( \Omega_{(n)})} \\
+&+ \opnorm{ \Opdd\up{2}(\Ohat_{(n)}+\delta\Omega_{(n)})-\Opdd\up{2}(\Ohat_{(n)})},
+\end{aligned}    
+\end{equation}
+where the infinite sum of Magnus terms higher than third order is lead by the non-vanishing third order. 
+We now examine the size of these terms.
+The first term in (\ref{eq:cdd-error-3terms}) is easy,
+\begin{equation*}
+\opnorm{\Opdd\up{1}(\delta\Omega_{(n)})} = \begin{pmatrix}
+4 \delta\alpha_{(n)} \\
+0
+\end{pmatrix}\simeq
+\begin{pmatrix}
+\Dt^3 \\
+0
+\end{pmatrix}.
+\end{equation*}
+To bound the size of the second term, we make two observations for the PDD Magnus series greater than the third order:
+\begin{enumerate}
+    \item At least one $B_{i\neq0}$ is involved in the coupling part.
+    \item At least two $B_{i\neq 0}$ is involved in pure bath part.  
+\end{enumerate}
+% That is to say, for $\opnorm{X}=(\alpha,\beta)$, 
+% the size of  the $m$th order Magnus term can be estimated by
+% \begin{equation}
+%     \opnorm{\Opdd\up{m}(X)} \lesssim \begin{pmatrix}
+%         \beta^2 (\alpha+\beta)^{m-2} \\
+%         \beta (\alpha+\beta)^{m-1}
+%     \end{pmatrix}, \quad m\ge3.
+% \end{equation}
+Therefore, the second term can be bounded by
+\begin{equation*}
+\opnorm{\Opdd\up{3}(\Omega_{(n)})} 
+\lesssim\begin{pmatrix}
+\beta_{(n)}^2 (\alpha_{(n)}+\beta_{(n)}) \\
+\beta_{(n)} (\alpha_{(n)}+\beta_{(n)})^2
+\end{pmatrix}
+\simeq \begin{pmatrix}
+\Dt^{2n+2}\\
+\Dt^{n+3}
+\end{pmatrix},
+\end{equation*}
+where we have used $\alpha_{(n)}\lesssim\widehat\alpha_{(n)}$ and $\beta_{(n)}\lesssim\widehat\beta_{(n)}$ according to the induction hypothesis.
+This can be alternatively shown by explicitly calculating the third order Magnus term using \Eqref{eq:Magnus-3rd}. 
+To bound the third term in (\ref{eq:cdd-error-3terms}), we can calculate the difference $\Opdd\up{2}(\Ohat+\delta\Omega) - \Opdd\up{2}(\Ohat)$
+using the expression for $\Opdd\up{2}$ from \Eqref{eq:PDD-magnus-2}.  In the end,
+\begin{equation*}
+\begin{split}
+&\opnorm[\big]{\Opdd\up{2}(\Ohat+\delta\Omega) - \Opdd\up{2}(\Ohat)} 
+\lesssim\begin{pmatrix}
+    0\\
+    \delta\alpha_{(n)}\delta\beta_{(n)}
+\end{pmatrix}\\
+&+\begin{pmatrix}
+    0\\
+    \widehat\beta_{(n)}\delta\alpha_{(n)} + \widehat\alpha_{(n)} \delta\beta_{(n)}
+    +\widehat\beta_{(n)} \delta\beta_{(n)} 
+\end{pmatrix}\simeq
+\begin{pmatrix}
+    0\\
+    \Dt^{n+3}
+\end{pmatrix}.
+\end{split}
+\end{equation*}
+Since all three terms are bounded by $(\tau_0^3, \tau_0^{n+3})^\transpose$, so is their sum. This proves our assertion \Eqref{eq:cdd-error-bounds}. \qed
+
+\smallskip
+
+Having showed its faithfulness, we are now confident in using the estimator \Eqref{eq:CDD-magnus} to study the full $\Omega_{(n)}$ of $\mathrm{CDD}_n$. In particular, we have $\alpha_{(n)}\approx\widehat\alpha_{(n)}=4^n \alpha$ and
+$\beta_{(n)}\approx\widehat{\beta}_{(n)}$.
+Similar as the PDD case, we can derive a strict bound and an approximate bound. For the strict bound, we have
+\begin{equation}\label{eq:cdd-errph-bound1}
+\begin{aligned}
+\widehat{\beta}_{(n)} &\le   2^{n(n+1)}\norm{\ad_{B_0}^{n}(B_1)} \\
+&\quad + 2^{n^2} 
+\norm{\ad_{B_0}^{n-\!1}([B_0,B_2] - \upi \{B_1,B_3\})}\\
+&\le  2^{n(n+1)}\alpha^{n-1}\beta (2^n \alpha+ \alpha + \beta).
+\end{aligned}
+\end{equation}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{references}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+
+\end{document}
