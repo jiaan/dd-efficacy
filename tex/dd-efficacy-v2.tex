@@ -1,7 +1,7 @@
 \documentclass[twocolumn,pra,superscriptaddress]{revtex4-2}
 
 \usepackage{amssymb,amsthm,mathrsfs,mathtools}
-\usepackage[usenames,dvipsnames]{color}
+\usepackage[usenames]{xcolor}
 
 \usepackage{graphicx}
 \graphicspath{{../"img/"}{../"figures/"}}
@@ -29,7 +29,7 @@
 \newcommand{\LO}[1]{\operatorname{LO}}
 \newcommand{\alphat}{\widetilde{\alpha}}
 \newcommand{\betat}{\widetilde{\beta}}
-\newcommand{\Omegat}{\widetilde{\Omega}}
+
 \newcommand{\Ppb}{\mathscr{P}_{\mathrm{0}}}
 \newcommand{\Pcp}{\mathscr{P}_{\mathrm{c}}}
 
@@ -79,9 +79,9 @@ This paper study dynamical decoupling (DD), a family of pulse schemes aimed at r
 \section{Introduction}
 The adverse effects of noise remains the single biggest obstacle to the realisation of large-scale quantum technologies. The very quantum effects that give quantum technologies their edge over classical devices are extremely fragile and easily destroyed by the presence of unwanted interactions with the environment—noise. Much of the current research and technological push in the community today are centered around implementing methods to remove the effects of noise in quantum devices.
 
-A key noise-removal technique is dynamical decoupling (DD)~\cite{viola1999dynamical,duan1998pulse,zanardi1999symmetrizing,khodjasteh2005fault,khodjasteh2007performance,viola2006randomized,uhrig2007keeping,pasini2010optimized,wang2011protection,ng2011combining,kuo2011quadratic}, a low-resource-cost approach that only requires application of fast pulse sequences on individual qubits in the quantum device to average away the effects of noise processes slow compared to the pulse time. With its roots in spin-echo techniques in NMR systems, DD has been used in many different types of experiments as a simple way to reduce noise in quantum information processing systems. Such active noise removal scheme is in direct contrast with the widely studied approach of quantum error correction (QEC)~\cite{laflamme1996perfect,gottesman1997stabilizer,knill1997theory,knill2000theory,shor1996fault,gottesman1998theory,aharonov2008fault}\blue{ [To re-select cited papers. Reduce the number of citations for QEC - QEC is not our main topic, so just cite two or three most seminal works. Also, the original QEC papers are not cited (goes back to Shor and Schumacher or some such early papers in the late 90s...). Perhaps cite a QEC textbook?]}.
+A key noise-removal technique is dynamical decoupling (DD)~\cite{viola1999dynamical,duan1998pulse,zanardi1999symmetrizing,khodjasteh2005fault,khodjasteh2007performance,viola2006randomized,uhrig2007keeping,pasini2010optimized,wang2011protection,ng2011combining,kuo2011quadratic}, a low-resource-cost approach that only requires application of fast pulse sequences on individual qubits in the quantum device to average away the effects of noise processes slow compared to the pulse time. With its roots in spin-echo techniques in NMR systems, DD has been used in many different types of experiments as a simple way to reduce noise in quantum information processing systems. Such active noise removal scheme is in direct contrast with the widely studied approach of quantum error correction (QEC)~\cite{Lida2013book}\rsout{ [To re-select cited papers. Reduce the number of citations for QEC - QEC is not our main topic, so just cite two or three most seminal works. Also, the original QEC papers are not cited (goes back to Shor and Schumacher or some such early papers in the late 90s...). Perhaps cite a QEC textbook?]}.
 Compared with QEC,  dynamical decoupling is typically more economical as it
-require no encoding of logical qubits using multiple physical qubits, nor real-time close-loop control through periodic syndrome measurement. All that is needed are regular single-qubit fast pulses that are usually easy to implement. DD be used by itself, or as the first layer of defense against noise In practice, one can choose to only implement DD or to incorporate DD within a standard QEC scheme as the low-level noise-reduction approach \rsout{\cite{west2010high} }\red{(We don't need a citation here, not for a standard statement)}. 
+require no encoding of logical qubits using multiple physical qubits, nor real-time close-loop control through periodic syndrome measurement. All that is needed are regular single-qubit fast pulses that are usually easy to implement. DD be used by itself, or as the first layer of defense against noise In practice, one can choose to only implement DD or to incorporate DD within a standard QEC scheme as the low-level noise-reduction approach. 
 
 The use of DD does not, however, come at no cost. To implement it, one has to apply multiple pulses, which can be imperfect. On the one hand, if the DD pulses are perfect, the slow noise will be averaged away, leaving weaker residual noise on the system; on the other hand, if the DD pulses are imperfect, those imperfections can add errors to the system, and if those errors happen often enough, they can eliminate the benefit of having DD in the first place. Like the cost-benefit analysis familiar to fault-tolerant quantum computing, one has to ask whether there is an error threshold for DD, limiting the level of imperfections allowed in the DD pulses above which DD simply cannot offer any benefit. 
 
@@ -101,14 +101,13 @@ The use of DD does not, however, come at no cost. To implement it, one has to ap
 \subsection{Basics of DD}
 
 DD involves the repeated application of a fixed sequence of short pulses (or fast gates) to individual quantum registers---usually qubits---that averages away the effect of any noise with a time scale slow compared to the sequence time. For a given DD scheme, let $L$ be the number of pulses in the sequence. We denote the $i$th pulse of the sequence as $P_i$, and write the sequence as
-\begin{equation}
-P_L \ldots P_2P_1,
-\end{equation}
-proceeding from right to left in time. Pulse $P_i$ is applied at time $t_{i-1}+\tau_i$ where $t_{i-1}$ is the time of the application of $P_{i-1}$, and $t_0$ is the start time of the sequence. \red{(Please edit Fig.~1 to illustrate the sentences above, including indicating the time intervals; remove $Q_i$s from the figure. No need to mention gates here.)}
-
+$P_L \ldots P_2P_1$ \gray{(I moved the equation here to inline)},
+proceeding from right to left in time. Pulse $P_i$ is applied at time $\blue{t_i={} }t_{i-1}+\tau_i$ where $t_{i-1}$ is the time of the application of $P_{i-1}$, and $t_0$ is the start time of the sequence. \rsout{(Please edit Fig.~1 to illustrate the sentences above, including indicating the time intervals; remove $Q_i$s from the figure. No need to mention gates here.)}
+\blue{We illustrate a typcial sequence of DD control gates in \Figref{fig:pulses}. }
 \begin{figure}[htbp]
  \includegraphics[width=1\linewidth]{pulse.pdf}
- \caption{\blue{(Add caption)}}
+ \caption{\blue{Illustration of the external control pulses for a typical DD sequence. Different gates are filled with different colors. The dashed gate at $t_0$ corresponds to the previous DD period.} }
+ \label{fig:pulses}
 \end{figure}
 
 All DD schemes share some fundamental similarities. First, the pulses are chosen from a specified group of transformations $P_i \in \sG$, for $i=1,2,\ldots, L$.
@@ -142,8 +141,9 @@ H\equiv I\otimes B_I+X\otimes B_X+Y\otimes B_Y+Z\otimes B_Z,
 \end{equation}
 where $I$ is the identity operator on the qubit, $X,Y$, and $Z$ are the Pauli operators on the qubit, and $B_i$, for $i=I,X,Y,Z$, are operators on the bath. We identify $I\otimes B_I$ as the bath-only $H_\mathrm{B}$ and $X\otimes B_X+Y\otimes B_Y+Z\otimes B_Z$ as the interaction Hamilton operator $H_\mathrm{SB}$, and define
 \begin{equation}
-\tau\opnorm{H}=(\tau\Vert H_\mathrm{B}\Vert,\tau\Vert H_\mathrm{SB})\equiv (\phiB,\phiSB).
+\opnorm{\tau H}=(\Vert\tau H_\mathrm{B}\Vert,\Vert\tau H_\mathrm{SB}\Vert)\equiv (\phiB,\phiSB).
 \end{equation}
+\red{(I moved $\tau$ inside the norm operator to conform the convention that norm should be taken on a dimensionless operator, not on Hamiltonian alone. But in the comming texts there are many violations.)}
 
 The PDD scheme uses a simple 4-pulse sequence $ZXZX$. The corresponding $\Odd$ of Eqs.~\eqref{eq:Udd} and \eqref{eq:Oeff Magnus series}, now re-labeled as $\Opdd$, can be worked out to be
 \begin{align}
@@ -201,7 +201,7 @@ To gauge the efficacy of DD, we need to quantify the deviation of the actual sta
 \begin{equation}\label{eq:ErrorPhase}
 \ep\equiv T\Vert\HeffSB\Vert .
 \end{equation}
-We use a norm such that $\Vert S\otimes B\Vert = |\Vert S\Vert \Vert B\Vert$, and $\Vert I\Vert =1=\Vert X\Vert = \Vert Y \Vert =\Vert Z\Vert$ for single-qubit $I, X, Y$, and $Z$.
+We use a norm such that $\Vert S\otimes B\Vert = \Vert S\Vert \Vert B\Vert$, and $\Vert I\Vert =1=\Vert X\Vert = \Vert Y \Vert =\Vert Z\Vert$ for single-qubit $I, X, Y$, and $Z$.
 
 As we will see, the norm of $\HeffB$ will also enter our analysis. We define the corresponding error phase for the bath-only term as $\epB\equiv \Vert\HeffB\Vert T$, and also ``two-component" error phase as
 \begin{equation}
@@ -289,6 +289,7 @@ This amounts to a requirement that both $\phiSB$ and $\phiB$ be small for PDD to
 \gray{
 On the other hand, the inequalities (\ref{eq:errph-strict}) 
 inspires use to use the following approximation for the error phase: \red{(The following is exactly true, not just approximately so, up to these factors of 2 that can be fixed -- but don't matter for the final inequality for the threshold condition -- for the Hilbert-Schmidt (H-S) induced norm. What is the norm used in producing Fig.~\ref{fig:pdd-region}? If that was the H-S norm, that would explain why this version of the inequality works well.)}
+\red{(That is the infinite norm, i.e., the largest eigenvalue, and consistently used across the orginal script. The reason, which was explaned in the error phase section in version 1, is that the norm need to satisty $\norm{I}=1$ for whatever dimensionality of the identity. ---Jiaan)}
 \begin{equation}\label{eq:errph-approx}
     \norm[\Big]{\sum_{i=1}^3 \sigma_i \otimes B_i} \approx \sqrt{\sum_{i=1}^3 \norm{B_i}^2}.
 \end{equation}

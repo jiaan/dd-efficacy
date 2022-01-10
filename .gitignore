@@ -5,4 +5,4 @@ tex/*.fdb_latexmk
 tex/*.fls
 tex/*.log
 tex/*.out
-tex/*.synctex.gz
+tex/*Notes.bib

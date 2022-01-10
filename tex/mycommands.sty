@@ -1,17 +1,5 @@
 \ProvidesPackage{mycommands}
 
-% defining the tick and cross symbol
-\usepackage{pifont}
-\newcommand{\cmark}{\ding{51}}%correct
-\newcommand{\xmark}{\ding{55}}%incorrect
-
-
-% \utilde command
-\usepackage{accents}
-\newcommand{\utilde}[1]{\underaccent{\sim}{#1}}
-
-
-
 % Defining math operators & notations
 \newcommand{\transpose}{{\mkern-1.5mu\mathsf{T}}}
 \newcommand{\dd}{\mathop{}\!\mathrm{d}}
@@ -55,7 +43,7 @@
 
 
 
-\newcommand{\vb}[1]{\vec{\mathbf{#1}}}
+\newcommand{\vb}[1]{\vec{\bm{#1}}}
 % \newcommand{\vc}{\operatorname{vec}}
 \newcommand{\vc}[2][]{\operatorname{vec}{#1({#2}#1)}}
 
