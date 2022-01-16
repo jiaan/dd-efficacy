@@ -1,4 +1,4 @@
-\documentclass[twocolumn,pra,superscriptaddress]{revtex4-2}
+\documentclass[pra,reprint,superscriptaddress]{revtex4-2}
 
 \usepackage{amssymb,amsthm,bm,mathrsfs,mathtools}
 \usepackage[usenames]{xcolor}
@@ -94,13 +94,11 @@ The use of DD does not, however, come at no cost. To implement it, one has to ap
 
 
 
-
+\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminaries}
-\noindent\blue{(Probably need to re-order the subsections here. To do later.)}
-
 %%%%%%%%%
 \subsection{Basics of DD}
 
@@ -139,6 +137,66 @@ $\Odd$ can be written down formally using the Magnus expansion,
 \end{equation}
 where the $m$th term consists of of products of $m$ copies of $\tau H$, and hence of order $\Vert \tau H \Vert^m$. We refer the reader to past analyses of DD \red{(cite)} for a detailed derivation; here we provide only the basic expressions needed for our discussion below. \blue{(Add back a bit of the derivation of the $\Odd^{(1)}$ and $\Odd^{(2)}$ terms.)} Within the radius of convergence of the Magnus series, $\Odd^{(m)}$ decreases in importance as $m$ increases. A DD scheme such that $\Odd^{(m)}$ acts trivially on the system (i.e., acts as $I$ on system) for all $m\leq n$ is said to achieve $n$th-order decoupling---the system sees weakened noise, of strength $\Vert\Odd^{(n)}\Vert\sim\Vert \tau H\Vert^n$, compared to $\Vert\Odd^{(1)}\Vert\sim\Vert \tau H\Vert$ without DD.
 
+\subsection{Quantifying the efficacy of DD}
+\blue{(More to come. To put back parts of the fidelity, etc. discussion, as needed in the remainder of the text.)}
+\subsubsection{Decoupling Order}
+
+
+According to \Eqref{eq:formal-Odd}, the DD protocol can be regarded as a transformation $\Omega \to \Odd$. Since the noise map $\cE$ is a function of $\Omega$ and $\rhoB$, the transformation on $\Omega$ takes the original quantum channel into a new 
+one  $\cE\to\cE_\sDD$. 
+As is argued in Sec.~\!\ref{sec:errph.vs.inf}, error phase is a convenient characterization of noise strength, we apply the two-component norm to the dimensionless Hamiltonian before and after DD, leading to 
+\begin{align}
+    \opnorm{\Omega} \equiv (\alpha,\beta) \quad \mathrm{and}\quad  \opnorm{\Odd} \equiv (\alpha_\sDD,\beta_\sDD).
+\end{align}
+The ``decoupling'' reference in the name of DD is understood in terms of the coupling part: i.e., the error phase of the new channel gets reduced through this transformation.
+We say noise is suppressed if the ratio $\beta_\sDD/\beta<1$, and a lower ratio would indicate better noise suppression.
+
+
+A widely used indicator to characterize the performance of DD schemes is the \emph{decoupling order}. A DD scheme is said to achieve $n$th-order decoupling  if the first $n$ terms in the series (\ref{eq:Oeff Magnus series}) have vanishing coupling part:
+\begin{equation}\label{dd:nth-order-condition}
+\Pcp(\Omega_{\sDD}\up{k}) =0,\ \text{for } 1\le k \le n.  
+\end{equation}
+The decoupling order is thus a single positive integer to grade different DD schemes. Greater decoupling order is usually linked with better noise suppression rate. 
+This can be seen by evaluating the norm of the Magnus series projected on to the coupling part. For an $n$th-order decoupling sequence, we have
+\begin{equation}\label{eq:nth-order-alternative}
+\beta_\sDD 
+=\norm[\Big]{\sum_{ k=n+1}^\infty \!\!\! \Pcp(\Omega_{\sDD}\up{k}) }
+\simeq (\alpha,\beta)^{n+1},
+\end{equation}
+where we use the notation $(\alpha,\beta)^{n+1}$ to represent a polynomial that is $(n+1)$th order in $\alpha$ and $\beta$.
+Provided that the Magnus series convergences absolutely, $\beta_\sDD$ is bounded by a power series in $\norm{\Omega}$ whose leading term is on the order of $n+1$.
+Therefore \Eqref{eq:nth-order-alternative} provides an alternative characterization for the $n$th-order decoupling condition, which can be useful when directly calculating the first $n$ Magnus terms is unfeasible.
+
+
+
+
+\subsubsection{Error Phase}
+To gauge the efficacy of DD, we need to quantify the deviation of the actual state of the quantum system, with and without DD, from the ideal, no-noise state. Following Ref.~\cite{khodjasteh2007performance}, we make use of the \emph{error phase}, which measures the strength of the system-bath interaction, the source of the noise on the system. The system and bath evolve jointly for some specified time $T$ according to the evolution operator $U(0,T)$. The underlying joint Hamilton operator generating the dynamics can be time-dependent, and can include---or not---the DD pulses on the system. We write $U(0,T)\equiv \upe^{-\upi T\Heff}$, for some effective time-independent system-bath Hamilton operator $\Heff$. $\Heff$ can be split into two pieces: $\Heff\equiv \HeffB+\HeffSB$, where $\HeffB\equiv \frac{I_\mathrm{S}}{d_\mathrm{S}}\otimes\tr_S(\Heff)$ acts on the bath alone, while $\HeffSB\equiv \Heff-\HeffB$ contains all the pieces that act nontrivially on the system. $\HeffSB$ can be thought of as the effective system-bath interaction over this time $T$. We define the error phase as the norm of that interaction, multiplied by the time interval,
+\begin{equation}\label{eq:ErrorPhase}
+\ep\equiv T\Vert\HeffSB\Vert .
+\end{equation}
+We use a norm such that $\Vert S\otimes B\Vert = \Vert S\Vert \Vert B\Vert$, and $\Vert I\Vert =1=\Vert X\Vert = \Vert Y \Vert =\Vert Z\Vert$ for single-qubit $I, X, Y$, and $Z$.
+
+As we will see, the norm of $\HeffB$ will also enter our analysis. We define the corresponding error phase for the bath-only term as $\epB\equiv \Vert\HeffB\Vert T$, and also ``two-component" error phase as
+\begin{equation}
+\Phi\equiv T\opnorm{\Heff}\equiv (\epB,\ep)
+\end{equation}
+\blue{(To merge with new text.) }\gray{
+Following the properties of operator norm, thus-defined map is  absolutely-scalable $\opnorm{a\, \Omega}= |a|\cdot \opnorm{\Omega}, \forall a \in \mathbb{C}$,
+and satisfies the inequality, 
+$\opnorm{A+B}\le \opnorm{A} + \opnorm{B}$,
+where  the ``$\le$'' sign between number pairs  is defined by each of the components: $(a_1,b_1)\le(a_2,b_2)$ if both $a_1\le a_2$ and $b_1\le b_2$; vice versa for  the ``$\ge$'' sign. 
+It can also be easily verified that the two-component norm is invariant under arbitrary disjoint unitary transformation on $\cH_\rS\otimes\cH_\rB$:
+\begin{equation}
+    \opnorm{(U_\rS \otimes U_\rB) \Omega (U_\rS ^\dagger \otimes U_\rB)} = \opnorm{\Omega},\, \forall U_{\rS} (U_{\rB})  \in \sU(d_{\rS(\rB)}),
+\end{equation}
+where $\sU(d_{\rS(\rB)})$ is set of unitary operators on $\cH_\rS$ or $\cH_\rB$.
+This invariance suggests that the error phase is invariant under arbitrary interaction picture defined by a system or bath evolution.
+}
+
+\subsubsection{Channel fidelity measures}
+
+\subsection{PDD and its concatenation}
 We specialize here to the case of interest, that of the single-qubit PDD scheme. The single qubit interacts with a bath, with a joint Hamilton operator (in the absence of DD) that can be written, without loss of generality, as
 \begin{equation}
 H\equiv I\otimes B_I+X\otimes B_X+Y\otimes B_Y+Z\otimes B_Z,
@@ -169,8 +227,6 @@ Comparing $\Opdd^{(1)}$---usually the dominant term---with $\Omega$, we see that
 
 
 
-%%%%%%%%%%
-\subsection{Scaling up the protection - concatenated DD}
 
 A given DD sequence yields a given decoupling order, setting a limit on the scheme's ability to reduce noise in the system. To increase the power of the DD scheme, one can employ the method of concatenation introduced in Ref.~\cite{khodjasteh2005fault}. In that work, concatenated DD (CDD) was built upon the basic PDD scheme; the same procedure of concatenation, however, can be applied to other basic DD sequences. The idea is to make use of concatenation to increase the decoupling order of the resulting DD sequence, hence scaling up the protection of the system against noise.
 
@@ -197,67 +253,18 @@ In the remainder of the paper, we will restrict our discussion to CDD built upon
 
 
 %%%%%%%%%
-\subsection{Quantifying the efficacy of DD}
-\blue{(More to come. To put back parts of the fidelity, etc. discussion, as needed in the remainder of the text.)}
-%%%%%
-\subsubsection{Error Phase}
-To gauge the efficacy of DD, we need to quantify the deviation of the actual state of the quantum system, with and without DD, from the ideal, no-noise state. Following Ref.~\cite{khodjasteh2007performance}, we make use of the \emph{error phase}, which measures the strength of the system-bath interaction, the source of the noise on the system. The system and bath evolve jointly for some specified time $T$ according to the evolution operator $U(0,T)$. The underlying joint Hamilton operator generating the dynamics can be time-dependent, and can include---or not---the DD pulses on the system. We write $U(0,T)\equiv \upe^{-\upi T\Heff}$, for some effective time-independent system-bath Hamilton operator $\Heff$. $\Heff$ can be split into two pieces: $\Heff\equiv \HeffB+\HeffSB$, where $\HeffB\equiv \frac{I_\mathrm{S}}{d_\mathrm{S}}\otimes\tr_S(\Heff)$ acts on the bath alone, while $\HeffSB\equiv \Heff-\HeffB$ contains all the pieces that act nontrivially on the system. $\HeffSB$ can be thought of as the effective system-bath interaction over this time $T$. We define the error phase as the norm of that interaction, multiplied by the time interval,
-\begin{equation}\label{eq:ErrorPhase}
-\ep\equiv T\Vert\HeffSB\Vert .
-\end{equation}
-We use a norm such that $\Vert S\otimes B\Vert = \Vert S\Vert \Vert B\Vert$, and $\Vert I\Vert =1=\Vert X\Vert = \Vert Y \Vert =\Vert Z\Vert$ for single-qubit $I, X, Y$, and $Z$.
-
-As we will see, the norm of $\HeffB$ will also enter our analysis. We define the corresponding error phase for the bath-only term as $\epB\equiv \Vert\HeffB\Vert T$, and also ``two-component" error phase as
-\begin{equation}
-\Phi\equiv T\opnorm{\Heff}\equiv (\epB,\ep)
-\end{equation}
-\blue{(To merge with new text.) }\gray{
-Following the properties of operator norm, thus-defined map is  absolutely-scalable $\opnorm{a\, \Omega}= |a|\cdot \opnorm{\Omega}, \forall a \in \mathbb{C}$,
-and satisfies the inequality, 
-$\opnorm{A+B}\le \opnorm{A} + \opnorm{B}$,
-where  the ``$\le$'' sign between number pairs  is defined by each of the components: $(a_1,b_1)\le(a_2,b_2)$ if both $a_1\le a_2$ and $b_1\le b_2$; vice versa for  the ``$\ge$'' sign. 
-It can also be easily verified that the two-component norm is invariant under arbitrary disjoint unitary transformation on $\cH_\rS\otimes\cH_\rB$:
-\begin{equation}
-    \opnorm{(U_\rS \otimes U_\rB) \Omega (U_\rS ^\dagger \otimes U_\rB)} = \opnorm{\Omega},\, \forall U_{\rS} (U_{\rB})  \in \sU(d_{\rS(\rB)}),
-\end{equation}
-where $\sU(d_{\rS(\rB)})$ is set of unitary operators on $\cH_\rS$ or $\cH_\rB$.
-This invariance suggests that the error phase is invariant under arbitrary interaction picture defined by a system or bath evolution.
-}
 
 
-
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Break-even point for periodic DD}
+\section{The break-even conditions for Ideal and noisy PDD}
+Now we have introduced the basic principles of DD, a natural question will be 
+how 
+
+
 Any noise mitigation strategy is effective only if its costs---the increased complexity of carrying out the quantum computational task---are lower than its benefits---the increased ability to remove adverse effects of the noise. The costs enter not just because any noise mitigation approach requires the use of more resources, e.g., more gates, more qubits, etc., but more that those added resources are themselves imperfect in practice, such that the unmitigated noise of the resulting larger system is unavoidably larger than if no noise mitigation strategy was adopted. There is then a net benefit only if the added noise is low enough to not overwhelm the added noise-removal capabilities. Such is the content of any fault-tolerant analysis, usually applied to quantum computing tasks protected by quantum error correction. Here, we apply the same logic to DD, and ask when the added benefit of averaging away part of the noise outweighs the added cost of having to do additional DD pulses.
 
-We can distinguish between two operational considerations: to preserve states in a quantum memory (no computational gates), or to reduce noise in the course of carrying out a quantum computation. In the memory setting, the goal is to preserve the quantum informational state for some time $T$ without damage. During this time $T$, we can do DD pulses, and ask if the noise at the end of each complete DD sequence is lower than the noise over the same time period if there were no DD pulses. In other words, for DD to work well, we require
-\begin{equation}
-\textrm{Memory setting:}\quad \epsilon_\mathrm{DD}<\epsilon(L),
-\end{equation}
-where $\epsilon_\mathrm{DD}$ quantifies the noise after the DD sequence, while $\epsilon(L)$ is the noise after bare evolution for the time taken for the $L$ DD pulses to be applied.
-In the computational setting, the comparison of with and without DD is different. With DD, computational gates can only be applied at the completion of each iteration of the DD sequence, as opposed to every time step without DD. The condition for DD to be effective in this case is then
-\begin{equation}\label{eq:cond}
-\textrm{Computational setting:}\quad\epsilon_\mathrm{DD}<\epsilon(1),
-\end{equation}
-where $\epsilon(1)$ is the noise after bare evolution for a single time step. 
-
-\begin{figure}[htbp]
- \centering
- \includegraphics[width=\linewidth]{memory-vs-computation}
- \caption{\blue{An illustration of the CDD time evolution maps under increasing concatenation levels.  We compare the quantum memory setting (above) to the quantum computation setting (under).}}
- \label{fig:memvscom}
-\end{figure}
-
-\blue{These two perspectives result in very different overall decoupling strategies. Especially if one is using CDD to ``scale up protection''. As illustrated in Fig.~\ref{fig:memvscom}, for the quantum memory setting, as total time is fixed $T$, one only need to come up with finer and finer slicing of the time evolution pieces; but for the quantum computation setting, one need to join the DD control gates to form a dilated time evolution map. The past papers in favor of CDD had taken the former perspective. It is undeniable that with finer and finer slicing of time evolution, one gets better and better performance. But this picture has some series drawbacks. First the total evolution time $T$ is typically unknown, even for quantum memory. Hence there is no way of knowing in advance which gate to perform at what time. Second, there exists a minimal switch/cool-down time between consecutive gates due to 
-technological limitations. Hence it is impractical to arbitrarily suppress noise by increasing concatenation level. 
-} 
-
-In our work, we focus on the computational setting, the more stringent one among the two, though it is straightforward to modify our analysis for the memory case. As we will see, Condition \eqref{eq:cond} will yield a requirement on the noise parameters characterizing the noise in the system and the DD pulses. We refer to that requirement as the ``break-even point" for DD, borrowing terminology from quantum error correction and fault-tolerant quantum computing.\red{ (There was a comment in the .tex file that some past papers have analyzed the memory case. What are those papers? Do you just mean the Khodjasteh-Lidar 2007 paper? That paper looks only at imperfections due to finite-width pulses, not control errors as we do here. Their paper hence only has a single-parameter $\ep$, not our two-parameter $\ep$ and $\eta$ situation. In fact, in current experiments $\eta$ is likely the larger problem; memory noise is usually much smaller than gate noise. Or are there other earlier papers?)} \blue{(Yes, that paper in particular. Their conclusion that CDD decouples to order $n$ and dramatically outperforms PDD come from this perspective. Our paper is focused on the quantum computation case which is more practical. See my new added picture \ref{fig:memvscom}). And let me quote their words (bottom left page 10) on how they do the comparison: ``The higher order data for PDD are obtained by simply repeating the basic sequence and shrinking the pulse interval. This is necessary to get the long-term behavior of decoupling. \ldots''  I also think it is better to move this memory/computation argument into next section when we talk about CDD threshold. This section is reserved for break-even points.  We should focus on that first before Introducting the  scaling behaviors.  ---Jiaan)}
-
-\blue{(To be merged with the new text.) }\gray{The conditions for achieving noise suppression are already derived previously for the idealistic PDD and CDD case.
-In general, we find that smaller $(\alpha,\beta)$ values would lead to to better noise suppression rate. Therefore the gates should be performed as frequently as possible. But this may leads to suboptimal outcomes in practice given the extra noise introduced by imperfect gate operations. To study the fault-tolerance of DD, we must account for the additional noise associated with the control gates.}
 
 
 
@@ -413,7 +420,7 @@ Further bounding the right hand side by $\phi_\rSB$ then gives us the condition 
 \begin{figure}[htbp]
  \centering
  \includegraphics[width=0.8\linewidth]{approx-bound}
- \caption{The histogram for the ratios $\widetilde\phi_\rB/\widetilde\phi_\rB^{(\mathrm{ub})}$ and $\widetilde\phi_\rSB/\widetilde\phi_\rSB^{(\mathrm{ub})}$ over 5000 randomly generated $\Gamma$ and $\Omega$ ($2\times2$) matrices. The random $\Gamma$ and $\Omega$ are set to follow a normal distribution with magnitudes around $0.01$ . Our appropriate bounds in \Eqref{eq:comb-bound} is indicated with an arrow.}
+ \caption{The histogram for the ratios $\widetilde\phi_\rB/\widetilde\phi_\rB^{(\mathrm{ub})}$ and $\widetilde\phi_\rSB/\widetilde\phi_\rSB^{(\mathrm{ub})}$ over 5000 randomly generated $\Gamma$ and $\Omega$ operators (as $4\times 4$ Hermitian matrices). The random $\Gamma$s and $\Omega$s are set to follow  the normal distribution with norms around $0.01$. Our bounds in \Eqref{eq:comb-bound} is indicated with an arrow.}
  \label{fig:approx-bound}
 \end{figure}
 
@@ -571,49 +578,114 @@ Proposition 2: For CDDn if the Hermitian generator responsible for the noise is 
 
 
 
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Accuracy threshold for concatenated DD}\label{sec:threshold}
+\section{Scaling up protection - concatenation and the accuracy threshold}\label{sec:threshold}
 \blue{(Generalization of the previous PDD section; CDD content from Secs.~IVA-D of draft by Jiaan \& Xiansong. The main goal here is to show that an accuracy threshold for DD, under the CDD scheme for scaling up, fails to exist. This means that there is a maximum level for CDD, beyond which further levels only make things worse. To discuss the differences from using different measures.)}
+We can distinguish between two operational considerations: to preserve states in a quantum memory (no computational gates), or to reduce noise in the course of carrying out a quantum computation. In the memory setting, the goal is to preserve the quantum informational state for some time $T$ without damage. During this time $T$, we can do DD pulses, and ask if the noise at the end of each complete DD sequence is lower than the noise over the same time period if there were no DD pulses. In other words, for DD to work well, we require
+\begin{equation}
+\textrm{Memory setting:}\quad \epsilon_\mathrm{DD}<\epsilon(L),
+\end{equation}
+where $\epsilon_\mathrm{DD}$ quantifies the noise after the DD sequence, while $\epsilon(L)$ is the noise after bare evolution for the time taken for the $L$ DD pulses to be applied.
+In the computational setting, the comparison of with and without DD is different. With DD, computational gates can only be applied at the completion of each iteration of the DD sequence, as opposed to every time step without DD. The condition for DD to be effective in this case is then
+\begin{equation}\label{eq:cond}
+\textrm{Computational setting:}\quad\epsilon_\mathrm{DD}<\epsilon(1),
+\end{equation}
+where $\epsilon(1)$ is the noise after bare evolution for a single time step. 
 
-Next, we turn to the situation of CDD. We can certainly discuss the break-even point for a particular $\CDDn$ sequence, treating it simply as a ``flattened" sequence of pulses, and ask when the error phase after $\CDDn$ is smaller than $\phi_\rSB$ as was done for PDD in the previous section. \red{(I realised that the CDD threshold analysis in the earlier draft is actually all about this only. We can consider adding some part of the content that we already have to the previous section. However, we still need to add this accuracy threshold analysis as described below -- to me, this accuracy threshold is the interesting angle from the perspective of seeing CDD as a procedure for scaling up the basic DD scheme. This exactly mirrors the break-even point versus accuracy threshold discussion in quantum error correction and fault tolerance theory (which offers a way to scale up to better protection).)} 
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=\linewidth]{memory-vs-computation}
+ \caption{\blue{An illustration of the CDD time evolution maps under increasing concatenation levels.  We compare the quantum memory setting (above) to the quantum computation setting (under).}}
+ \label{fig:memvscom}
+\end{figure}
 
+\blue{These two perspectives result in very different overall decoupling strategies. Especially if one is using CDD to ``scale up protection''. As illustrated in Fig.~\ref{fig:memvscom}, for the quantum memory setting, as total time is fixed $T$, one only need to come up with finer and finer slicing of the time evolution pieces; but for the quantum computation setting, one need to join the DD control gates to form a dilated time evolution map. The past papers in favor of CDD had taken the former perspective. It is undeniable that with finer and finer slicing of time evolution, one gets better and better performance. But this picture has some series drawbacks. First the total evolution time $T$ is typically unknown, even for quantum memory. Hence there is no way of knowing in advance which gate to perform at what time. Second, there exists a minimal switch/cool-down time between consecutive gates due to 
+technological limitations. Hence it is impractical to arbitrarily suppress noise by increasing concatenation level. 
+} 
+
+In our work, we focus on the computational setting, the more stringent one among the two, though it is straightforward to modify our analysis for the memory case. As we will see, Condition \eqref{eq:cond} will yield a requirement on the noise parameters characterizing the noise in the system and the DD pulses. We refer to that requirement as the ``break-even point" for DD, borrowing terminology from quantum error correction and fault-tolerant quantum computing.\red{ (There was a comment in the .tex file that some past papers have analyzed the memory case. What are those papers? Do you just mean the Khodjasteh-Lidar 2007 paper? That paper looks only at imperfections due to finite-width pulses, not control errors as we do here. Their paper hence only has a single-parameter $\ep$, not our two-parameter $\ep$ and $\eta$ situation. In fact, in current experiments $\eta$ is likely the larger problem; memory noise is usually much smaller than gate noise. Or are there other earlier papers?)} \blue{(Yes, that paper in particular. Their conclusion that CDD decouples to order $n$ and dramatically outperforms PDD come from this perspective. Our paper is focused on the quantum computation case which is more practical. See my new added picture \ref{fig:memvscom}). And let me quote their words (bottom left page 10) on how they do the comparison: ``The higher order data for PDD are obtained by simply repeating the basic sequence and shrinking the pulse interval. This is necessary to get the long-term behavior of decoupling. \ldots''  I move this memory/computation argument from the previous  section as it is more appropriate when we discuss the scaling behavior.  ---Jiaan)}
+
+\blue{(To be merged with the new text.) }\gray{The conditions for achieving noise suppression are already derived previously for the idealistic PDD and CDD case.
+In general, we find that smaller $(\alpha,\beta)$ values would lead to to better noise suppression rate. Therefore the gates should be performed as frequently as possible. But this may leads to suboptimal outcomes in practice given the extra noise introduced by imperfect gate operations. To study the fault-tolerance of DD, we must account for the additional noise associated with the control gates.}
+
+
+
+Next, we turn to the situation of CDD. We can certainly discuss the break-even point for a particular $\CDDn$ sequence, treating it simply as a ``flattened" sequence of pulses, and ask when the error phase after $\CDDn$ is smaller than $\phi_\rSB$ as was done for PDD in the previous section. 
 However, what is more interesting is the question of the so-called accuracy threshold for CDD.
-As described in the Preliminaries section, CDD tries to achieve better and better noise removal by concatenating the same basic DD scheme---PDD for our discussion here---to higher and higher levels. Here, we are interested in understanding how the noise removal improves as the DD scheme scales up. In fault-tolerant quantum computing, there is the concept of a fault tolerance noise threshold, a strength of the noise below which scaling up the QEC code leads to improved protection against noise, and hence more accurate quantum computation. This threshold is referred to as the accuracy threshold. Here, we ask the analogous question of CDD, whether there is a condition on the noise parameters of the problem such that increasing the CDD level always leads to improved noise removal capabilities. An accuracy threshold for CDD exists if the parameters governing the noise of the situation satisfying a condition (usually one where the noise is weak enough) such that 
+As described in the Preliminaries section, CDD tries to achieve better and better noise removal by concatenating the same basic DD scheme---PDD for our discussion here---to higher and higher levels. Here, we are interested in understanding how the noise removal improves as the DD scheme scales up. In fault-tolerant quantum computing, there is the concept of a fault tolerance noise threshold, a strength of the noise below which scaling up the QEC code leads to improved protection against noise, and hence more accurate quantum computation. This threshold is referred to as the accuracy threshold. Here, we ask the analogous question of CDD, whether there is a condition on the noise parameter of the problem such that increasing the CDD level always leads to improved noise removal capabilities. An accuracy threshold for CDD exists if the parameters governing the noise of the situation satisfying a condition $\eta<\eta_0$, such that 
 \begin{equation}\label{eq:thresCond}
-\Phi_{\mathrm{SB},n+1}\leq\Phi_{\mathrm{SB},n}\qquad\forall n=1,2,\ldots.
+\Phi_{\mathrm{SB},n+1} < \Phi_{\mathrm{SB},n}\qquad\forall n=1,2,\ldots.
 \end{equation}
 
 Below, we examine this for both the ideal CDD case where pulses are perfect, and the noisy CDD case where imperfections in the pulses are allowed.
 
+\newpage
 %%%%%%%%%
 \subsection{Ideal case}
-We first consider CDD with perfect pulses. A detailed analysis (see App.~\ref{app:CDD}) yields the error phases for $\CDDn$ as
-\begin{align}
-\Phi_{\mathrm{B},n}&\simeq 4^n\phi_\rB(\tau_0),\\
-\Phi_{\mathrm{SB},n}&\lesssim 2^{n(n+1)}\phi_\rB(\tau_0)^{n-1}\phi_\rSB(\tau_0)(2^n\phi_\rB+\phi_\rB+\phi_\rSB),\nonumber
-\end{align}
-where, to remind the reader, $\phi_\rB\equiv\phi_\rB(\tau_0)\equiv\tau_0\Vert \HB\Vert$, and $\phi_\rSB\equiv\phi_\rSB(\tau_0)\equiv\tau_0\Vert\HSB\Vert$, noting the dependence of both quantities on $\tau_0$, the time interval between two consecutive pulses in the CDD sequence. \red{(To reconsider: We need both an upper and lower bound for $\Phi_{\mathrm{SB},n}$, which we have from the estimator [Eq.~\eqref{eq:lu}]. For use in Eq.~\eqref{eq:thresCond}, we should have the lower bound on the RHS of that condition, and upper bound expression on the LHS, for a sufficient condition.) }As mentioned in the Preliminaries section, $\CDDn$ achieves $n$th-order decoupling. This can be understood from the error phase expression: $\Phi_{\mathrm{SB},n}$ after $\CDDn$ is of order $\phi^{n+1}$, for $\phi\sim\phi_\rB, \phi_\rSB$. That $\phi_\rB$ enters the error phase should again be of no surprise---as in the PDD case, $\phi_\rB$ determines how quickly the noise seen by the system evolves, and hence affects the efficacy of DD which does a good elimination of the noise only when the noise remains nearly unchanged for the full DD sequence. 
+If a noise threshold indeed exist, then ideal case, where the noise is non-existent, would definitely apply. 
+We first consider CDD with perfect pulses. Khodjasteh and Lidar propose in their paper to truncate to th second order term
+gave in their paper an estimation of the $\CDDn$ generator as:
+\begin{align}\label{eq:cdd-generator-est}
+\Omega_{(n)} 
+\approx {} & \sigma_0 \otimes 4^n B_0 \notag \\
++\ & \sigma_1 \otimes (-\upi)^{n} 2^{n(n+1)} \ad_{B_0}^{n}(B_1)\\ 
++\ & \sigma_2 \otimes (-\upi)^{n} 2^{n^2} \ad_{B_0}^{n-\!1}( \,[B_0,B_2] - \upi \{B_1,B_3\} \,). \notag
+\end{align} 
+It is shown in the appendix \ref{app:CDD} that the above expression indeed captures the leading order behavior of $\Omega_{(n)}$. Different from the leading order term in the Magnus series, the leading order ``behavior'' is manifested separately for the pure bath part and the interaction part.  As mentioned in the Preliminaries section, $\CDDn$ achieves $n$th-order decoupling.  From the leading order expression, we see it is indeed so as the interaction part is of $(n+1)$th order.
+From \Eqref{eq:cdd-generator-est}, we can 
+estimate $\Phi_{\mathrm{B},n} \simeq 4^n\phi_\rB$ and derive an upper bound for for the error phase:
+\begin{equation}
+\Phi_{\mathrm{SB},n} \lesssim \,
+2^{(n+1)^2} \phi_\rB^{n}\,\phi_\rSB \,f_n\!\left(\frac{\phi_\rSB}{\phi_\rB}\right),
+ % \left\{
+ % \begin{aligned}
+ % 2^n, && \frac{\phi_\rSB}{\phi_\rB} \le \sqrt{4^n-1}. \\
+ % \sqrt{1+\frac{1}{4}\left(\frac{4^n-1}{\phi_\rSB/\phi_\rB}+\phi_\rSB/\phi_\rB\right)^2}, && \frac{\phi_\rSB}{\phi_\rB} > \sqrt{4^n-1}.
+ % \end{aligned}
+ % \right.
+\end{equation}
+where we define the piece-wise function:
+\begin{equation}
+ f_n(x) =\left\{
+ \begin{aligned}
+ &1, && x \le  \sqrt{4^n-1}, \\
+ &\frac{1}{2^n} \sqrt{\left(\frac{4^n-1}{2x}+\frac{x}{2}\right)^2+1}, &&
+ x > \sqrt{4^n-1}.
+ \end{aligned}
+ \right.
+\end{equation}
+
+to remind the reader, $\phi_\rB\equiv\phi_\rB(\tau_0)\equiv\tau_0\Vert \HB\Vert$, and $\phi_\rSB\equiv\phi_\rSB(\tau_0)\equiv\tau_0\Vert\HSB\Vert$, noting the dependence of both quantities on $\tau_0$, the time interval between two consecutive pulses in the CDD sequence. \red{(To reconsider: We need both an upper and lower bound for $\Phi_{\mathrm{SB},n}$, which we have from the estimator [Eq.~\eqref{eq:lu}]. For use in Eq.~\eqref{eq:thresCond}, we should have the lower bound on the RHS of that condition, and upper bound expression on the LHS, for a sufficient condition.) } As mentioned in the Preliminaries section, $\CDDn$ achieves $n$th-order decoupling. This can be understood from the error phase expression: $\Phi_{\mathrm{SB},n}$ after $\CDDn$ is of order $\phi^{n+1}$, for $\phi\sim\phi_\rB, \phi_\rSB$. That $\phi_\rB$ enters the error phase should again be of no surprise---as in the PDD case, $\phi_\rB$ determines how quickly the noise seen by the system evolves, and hence affects the efficacy of DD which does a good elimination of the noise only when the noise remains nearly unchanged for the full DD sequence. 
 
 What is perhaps more surprising is the appearance of factors of $2^n$ and $2^{n^2}$ in $\Phi_{\mathrm{SB},n}$, a new feature in the CDD case \red{(Do these factors also appear in the Khodjasteh-Lidar analysis? Please check and put in a sentence about this.)}. For fixed $\tau_0\equiv \tau$ as $n$ increases (e.g., if $\tau$ is the experimental limit for the switch time between consecutive pulses), such factors mean that the error phase eventually increases for large enough $n$: The exponentially decreasing $\phi^n$ factor is eventually overcome by the super-exponentially increasing $2^{n^2}$ factor. This means there is no accuracy threshold, i.e., there is no level of noise that is weak enough such that $\Phi_{\mathrm{SB},n+1}\leq\Phi_{\mathrm{SB},n}$ for all $n$. Instead, there is an maximal useful level of concatenation level, beyond which further concatenation actually increases the noise seen by the system. Fig.~\ref{fig:estimator-size} plots this situation of fixed $\tau_0$, for increasing concatenation level $n$. We observe the initial decrease of $\Phi_{\mathrm{SB},n}$ as $n$ increases, but this turns around eventually. 
 
 \begin{figure}
     \includegraphics[trim=5mm 0mm 0mm 0mm, clip, width=\columnwidth]{cdd-estimator}
-    \caption{\blue{(To merge with new text; no mention of estimators in current new text.) }The estimator size for $\widehat \alpha_n$ and the error phase $\widehat \beta_n$ as a function of concatenation level $n$. In the graph, the bare Hamiltonian is set to take on the value $\alpha=0.01$ and $\beta=0.01$.}
+    \caption{The error phase $\phi_{\rSB,n}$ as a function of concatenation level $n$. 
+    The thin color lines are obtained from numerically simulating $\CDDn$ with randomly generated bare Hamiltonian operators satisfying $\phi_\rB=1\times10^{-3}$ and $\phi_\rSB=2\times 10^{-3}$. The blue dashed line is our theoretical upper bound. For this configuration, we set the maximal concatenation level at 4.}
     \label{fig:estimator-size}
 \end{figure}
 
-\red{(To reconsider with my lower/upper bound comment above.) }\gray{For higher concatenation level to make sense, increasing concatenation level should decrease the error phase. To derive a sufficient condition for the maximal concatenation level, we compare the error phase upper bound in \Eqref{eq:cdd-errph-bound1} of the  $\mathrm{CDD}_n$ to that of the $\mathrm{CDD}_{n+1}$,
-\begin{equation*}
-\frac{2^{(n+1)(n+2)}\alpha^{n}\beta (2^{n+1} \alpha+ \alpha + \beta)}{2^{n(n+1)}\alpha^{n-1}\beta (2^n \alpha+ \alpha + \beta)} \le 4^{n+1}2\alpha.
-\end{equation*}
-The maximal level is reached when there is a contraction.
-By requiring the r.h.s.\  to be smaller than 1, we obtain the bound for the maximal concatenation level:
-\begin{equation}\label{eq:cdd-max-level}
-n_{\max}\le -\log_4\alpha-\frac{3}{2}.
+\red{(To reconsider with my lower/upper bound comment above.) }
+For higher concatenation level to make sense, increasing concatenation level should decrease the error phase. To derive a sufficient condition of it, we examine the recursive relation between concatenation 
+levels, which suggests 
+\begin{equation}
+\begin{aligned}
+ B_{n+1,0} &= 4  B_{n,0}\\
+ B_{n+1,1} & = -4\upi [B_{n,0}, B_{n,1} ]\\
+ B_{n+1,2} & = -2\upi [B_{n,0}, B_{n,1} ]\\
+  B_{n+1,3} &=0
+\end{aligned}
 \end{equation}
-}
+For both $B_1$ and $B_2$ to decrease in size, it suffice to require the map 
+$-4\upi [B_{n,0},\cdot]$ a contraction map. 
+By requiring its norm to be smaller than 1, we obtain the bound for the maximal concatenation level:
+\begin{equation}\label{eq:cdd-max-level}
+n_{\max}\le \lceil-\log_4(\phi_\rB)-3/2\rceil,
+\end{equation}
+where $\lceil\cdot\rceil$ is the ceiling operator.
 
 Note that the existence of a maximal useful concatenation level does not technically contradict the statement that 
 higher-order decoupling is achieved by higher level CDD. Using decoupling order to quantify the degree of noise removal requires, in the first place, the convergence of the Magnus series, so that the $(n+1)$th- and higher-order terms in the series are a small correction to the first $n$ terms. However, if the DD scheme is designed such that the total time for the sequence grows exponentially with $n$, as is the case for CDD if $\tau_0$ is fixed as $n$ increases, eventually, we exceed the convergence criterion and the decoupling order stops being a reasonable indicator of successful noise removal. 
@@ -626,6 +698,10 @@ Eventually, of course, this becomes limited by the technological---not fundament
 
 %%%%%%%%%
 \subsection{Noisy pulses}
+\red{(To add.)}
+
+%%%%%%%%%
+
 \red{(To add.)}
 
 
