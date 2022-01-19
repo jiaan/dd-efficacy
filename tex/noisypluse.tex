@@ -45,7 +45,15 @@
 \begin{document}
 \section{Note on noisy gates}
 Previously, we treated the DD control gates in an ideal manner, which implies instantaneous and noise-free pulses. In practice, of course, the control gates are noisy quantum channels that need not be unitary.
-However, one may always include an ancillary system to transform a quantum channel into a unitary one over the extended Hilbert space. For the analytical treatment below, we will always assume this dilation for the actual gates and marked the extended unitary operators with overtildes, e.g., $\wtP_i$. A general DD sequence under those noisy pulses are then 
+Non-unitary channels are problematic for us as we can no longer use the error phase to characterize the noise strength.
+However, one may always include an ancillary system to transform a quantum channel into a unitary one over the extended Hilbert space. For the analytical treatment below, we will always assume this dilation for the actual gates and marked the extended unitary operators with overtildes, e.g., $\wtP_i$. 
+To facilitate our analysis, we ascribe Hermitian generators to the noisy gates. Such generator should be dominated by that of an ideal gate. In general, we should have 
+\begin{equation}\label{eq:pulse-hami}
+ \widetilde{P}_i= \exp\left[ -\upi \left( \Omega_{P_i} + \eta\, \Gamma_{P_i} \right)  \right],
+\end{equation}
+where $\Omega_{P_i}$ is responsible for the ideal $P_i$-gate and $\Gamma_{P_i}$ is a Hermitian generator responsible for the imperfection, $\eta$ is a small positive number for tracking the noise strength. While $\Omega_{P_i}$ is system-only, the noise part $\eta\Gamma_{P_i}$ is supported on the system-bath-ancilla composite in general. For Pauli group transformations in particular, we have $\Omega_{\sigma_i} = (\pi/2)\sigma_i$ generating a $\pi$-rotation.
+
+A general DD sequence under those noisy pulses are then 
 \begin{equation}\label{eq:noisy-UDD}
  \widetilde{U}_{\mathrm{DD}} =  \wtP_L \upe^{-\upi \Omega}  \ldots  \wtP_1\upe^{-\upi \Omega}\equiv  \upe^{-\upi\wtO_\rDD},
 \end{equation}
@@ -57,13 +65,9 @@ The overall goal is to figure out the conditions required by the noisy gates suc
 and obtain an upper bound on the noise level $\eta<\eta_{\rmax}(\phi_\rB, \phi_\rSB)$.
 To achieve this, we need to correctly estimate the DD error phase function $\wtep(\phi_\rB,\phi_\rSB,\eta)$ while also looking for an appropriate definition for the noise strength $\eta$ associated with the gates.  
 
-To better analyze the noisy pulses, we ascribe Hermitian generators to them. Such generator should be dominated by that of an ideal gate. In general, we should have 
-\begin{equation}\label{eq:pulse-hami}
- \widetilde{P}_i= \exp\left[ -\upi \left( H_{P_i} + H'_{P_i} \right)  \right],
-\end{equation}
-where $H_{P_i}$ is responsible for generating the ideal $P_i$-gate and $H'_{P_i}$ is a small Hermitian operator responsible for the imperfection. While the ideal part $H_{P_i}$ is system-only, the noise part $H'_{P_i}$ is supported on the system-bath-ancilla composite in general. For Pauli group transformations in particular, it is well known that $H_{\sigma_i} = (\pi/2)\sigma_i$. A similar noise model was considered in Ref.~\!\cite{khodjasteh2007performance} for the case of finite-width pulses, where $ H'_{P_i} $ was set as $\delta H$ for all $\wtP_i$-gates (assuming the pulse duration $\delta$ and system-bath coupling Hamiltonian $H$). Our work improve upon the past work by allowing more generic type of noise while focusing on the break-even conditions for the DD sequence. 
+ A similar noise model was considered in Ref.~\!\cite{khodjasteh2007performance} for the case of finite-width pulses, where $ H'_{P_i} $ was set as $\delta H$ for all $\wtP_i$-gates (assuming the pulse duration $\delta$ and system-bath coupling Hamiltonian $H$). Our work improve upon the past work by allowing more generic type of noise while focusing on the break-even conditions for the DD sequence. 
 
-One may now be tempted to plug \Eqref{eq:pulse-hami} into \Eqref{eq:noisy-UDD} to obtain the sequence unitary $\wtU_\rDD$ and solve for $\wtO_\rDD$. However, there is no way to directly derive a converging Magnus series for now as the convergence condition is violated by the very large $\norm{H_{P_i}} >\xi$. Furthermore, we need Pauli operator conjugations for DD to function normally.  Therefore it is obligatory to separate out the ideal-gate part from the noisy gate.
+One may now be tempted to plug \Eqref{eq:pulse-hami} into \Eqref{eq:noisy-UDD} to obtain the sequence unitary $\wtU_\rDD$ and solve for $\wtO_\rDD$. However, there is no way to directly derive a converging Magnus series for now as the convergence condition is violated by the very large $\norm{\Omega_{P_i}} >\xi$. Furthermore, we need Pauli operator conjugations for DD to function normally.  Therefore it is obligatory to separate out the ideal-gate part from the noisy gate.
 
 \subsection{Gate-independent noise}
 For each noisy gate $\wtP_i$, we may separate out a ``pure error'' map, $P_i^{\dagger} \wtP_i$, by applying the inverse gate.  As the resulting operator is unitary and close to identify,  we may associated to it a Hermitian generator $\Gamma_i$ to write the noisy gate as
