@@ -491,7 +491,7 @@ Bounding the resulting error phase and applying triangular inequality, we have t
 \end{equation}
 For verification, we numerically simulated PDD with noisy pulses and compare the results with our our break even conditions in \Figref{fig:pdd-noisy-pulse}. 
 Specifically, for each fixed tuple of parameters $(\phi_\rB,\phi_\rSB,\eta)$, we randomly generate 300 sets of the Hermitian matrices $\{\Omega,\Gamma',\Gamma''\}$
-satisfying the given parameters over a uniform distribution. Noisy PDD is simulated for each particular set of  bare Hamiltonian and noisy pulses; the noise reduction ratio $\wt\Phi_\rSB/\phi_\rSB$ is obtained and numerically maximized for the fixed $(\phi_\rB,\phi_\rSB,\eta)$. 
+satisfying the given parameters over the uniform Haar measure. Noisy PDD is simulated for each random instance to obtain the noise reduction ratio $\wt\Phi_\rSB/\phi_\rSB$, and maximal value is retained. The noise reduction condition $\wt\Phi_\rSB/\phi_\rSB\le 1$ determines a continuous region in the 3D parametric space of $(\phi_\rB,\phi_\rSB,\eta)$.
 We used two figures to visualize the effect of noisy pulses. First is the deformation---or shrinking to be exact---of the noise removal region in the $(\phi_\rB,\phi_\rSB)$ phase diagram. Second is the dependence between the maximally allowed noise versus the free-evolution noise. From the figure we can see that our first order condition works well as long as the noise parameter $(\phi_\rB,\phi_\rSB)$ is weak and the second order condition is more universally applicable for a wider range of conditions.
 
 
