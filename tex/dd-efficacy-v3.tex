@@ -426,7 +426,7 @@ And we may write the noisy $X$ and $Z$ pulses as:
  \widetilde{Z} = \upe^{-\upi ( \frac{\pi}{2} \sigma_3 + \eta\Gamma'')},
 \end{equation}
 where $\Gamma'$ and $\Gamma''$ accounts for the noise in $\wt X$ and $\wt Z$.
-We separate out the system part of these operators by $\Gamma' = \sum_i \sigma_i \otimes B'_i $ and $\Gamma''=\sum_i \sigma_i \otimes B''_i$, with $B'_i$ and $B''_i$ acting on the bath-ancilla product space. 
+We separate out the system part of these operators by $\Gamma' = \sum_i \sigma_i \otimes B'_i $ and $\Gamma''=\sum_i \sigma_i \otimes B''_i$, with normalized operators $B'_i$ and $B''_i$ acting on the bath-ancilla product space. 
 The time evolution for the noisy PDD sequence then becomes
 \begin{equation}\label{eq:UPDD-gatedep}
  \begin{aligned}
@@ -441,34 +441,35 @@ The time evolution for the noisy PDD sequence then becomes
 \upe^{-\upi  \Gamma_0}  \upe^{-\upi \Omega_0},
 \end{aligned}
 \end{equation}
-where $\Omega_i = \sigma_i \Omega \sigma_i$ as in the ideal case; and we define
-$\upe^{-\upi  \Gamma_3}=\wt Z Z$, 
-$\upe^{-\upi  \Gamma_2}=Z \wt X Y$,
-$\upe^{-\upi  \Gamma_1}=Y \wt Z X$ and 
-$\upe^{-\upi  \Gamma_0}=X \wt X$.
+where $\Omega_i \equiv \sigma_i \Omega \sigma_i$ as in the ideal case; additionally we introduce
+$\upe^{-\upi  \Gamma_3}\equiv \wt Z Z$,
+$\upe^{-\upi  \Gamma_2}\equiv Z \wt X Y$,
+$\upe^{-\upi  \Gamma_1}\equiv Y \wt Z X$, and 
+$\upe^{-\upi  \Gamma_0}\equiv X \wt X$.
 By keeping the first order in 
 $\eta$, we can derive
-\begin{equation}
+\begin{equation}\label{eq:PDDnp-Gamma}
  \begin{aligned}
-  \Gamma_3 &= \eta(\sigma_0 \otimes B_0''- \frac{2}{\pi} \sigma_1 \otimes B_2'' 
+ \Gamma_3 &= \eta(\sigma_0 \otimes B_0''- \frac{2}{\pi} \sigma_1 \otimes B_2'' 
   +\frac{2}{\pi}  \sigma_2 \otimes B_1'' + \sigma_3 \otimes B_3''),\\
-  \Gamma_2 &= \eta(\sigma_0 \otimes B_0'- \sigma_1 \otimes B_1'
+\Gamma_2 &= \eta(\sigma_0 \otimes B_0'- \sigma_1 \otimes B_1'
   +\frac{2}{\pi}  \sigma_2 \otimes B_3' + \frac{2}{\pi} \sigma_3 \otimes B_2'),\\
   \Gamma_1 &= \eta(\sigma_0 \otimes B_0''+ \frac{2}{\pi} \sigma_1 \otimes B_2'' 
   +\frac{2}{\pi}  \sigma_2 \otimes B_1'' - \sigma_3 \otimes B_3''),\\
-  \Gamma_0 &= \eta(\sigma_0 \otimes B_0'+ \sigma_1 \otimes B_1'
+ \Gamma_0 &= \eta(\sigma_0 \otimes B_0'+ \sigma_1 \otimes B_1'
   +\frac{2}{\pi}  \sigma_2 \otimes B_3' - \frac{2}{\pi} \sigma_3 \otimes B_2').
  \end{aligned}
 \end{equation}
-Every term on the exponent in \Eqref{eq:UPDD-gatedep}  is now at least linear in the smallness $\eta$ or $\norm{\Omega}$ and we can apply the Magnus formula to calculate $\widetilde\Omega_\mathrm{PDD}$. 
-The first order Magnus term suggests:
-\begin{equation}
+\blue{Readers may refer to Appendix~\!\ref{app:PDDnpDerivation} for derivations of the above results.}
+
+
+Every term on the exponent in \Eqref{eq:UPDD-gatedep}  is now at least linear in the smallness $\eta$ or $\norm{\Omega}$ and we can invoke the Magnus formula to calculate $\widetilde\Omega_\mathrm{PDD}$. 
+The first order term suggests:
+\begin{equation}\label{eq:PDDnp-firstorder}
  \wt\Omega_\rDD\up{1}= \sigma_0 \otimes (4B_0 + 2\eta( B'_0 + B''_0)) 
 + \sigma_2 \otimes \frac{4}{\pi}\eta(B_1''+B_3').
 \end{equation}
-The term that acts non-trivially on the system is proportional to $B_1''+B_3'$. 
-Assuming no particular relation between the $X$ and $Z$ noise,  exact first order decoupling is lost. 
-When the gate noise strength $\eta$ is at least of similar size as $\phi_\rSB$---the gate noise is typically stronger than the background noise in many experiments---the first order Magnus term would be of leading order in magnitude. And the error phase after PDD is reduced to a linear multiple in $\eta$. 
+When the gate noise strength $\eta$ is at least of similar size as the environmental noise $\phi_\rSB$---the gate noise is typically stronger than the background noise in many experiments---the first order Magnus term would be of leading order in the Magnus series. And the error phase after PDD is reduced to a linear multiple in $\eta$. 
  we upper-bound the size of the first order coupling by:
 \begin{equation}
  \wt\Phi_\rSB \approx \norm{ \frac{4\eta}{\pi}(B_1''+B_3')} \le \frac{8}{\pi}\eta.
@@ -477,7 +478,8 @@ This results in the first order breakeven condition:
 \begin{equation}
  \eta \le \frac{\pi}{8} \phi_\rSB.
 \end{equation}
-This condition indicates that in order to achieve noise suppression, the gate noise should be bounded by a fraction of the free evolution noise. If any observable improvement from DD is expected, the pulses must be very accurate in the first place.   On the other hand if $\eta\ll \phi_\rSB$, the existence of pulse noise contributes negligibly and the second oder term will be similar to the ideal PDD case. Hence to faithfully approximate the full $\wt\Omega_\rDD$, we may keep every term that is linear in $\eta$ and up to second order in the smallness $\phi_\rB$ or $\phi_\rSB$ (alternatively: second order in $\phi$). Focusing on the interaction part, the result becomes:
+This condition indicates that in order to achieve noise suppression, the gate noise should be bounded by a fraction of the free evolution noise. If any observable improvement from DD is expected, the pulses must be very accurate in the first place.   On the other hand if $\eta\ll \phi_\rSB$, the existence of pulse noise contributes negligibly and the second oder term will be similar to the ideal PDD case. Hence to faithfully approximate $\wt\Omega_\rDD$
+in all possible arrangements, we may keep every term that is linear in $\eta$ and up to second order in the smallness $\phi_\rB$ or $\phi_\rSB$ (alternatively: second order in $\phi$). Focusing on the interaction part, the result becomes:
 \begin{equation}
  \wt\Omega_{\rDD:\rSB} = \Omega_{\rDD:\rSB} +\sigma_2 \otimes \frac{4}{\pi}\eta(B_1''+B_3') + \cO(\eta\phi,\eta^2).
 \end{equation}
@@ -486,47 +488,56 @@ Bounding the resulting error phase and applying triangular inequality, we have t
    \eta \le \frac{\pi}{8} \phi_\rSB - \frac{\pi}{8}\Phi_\rSB^{(\mathrm{ub})}.
 \end{equation}
 We remark that this is a loose bound and tighter bound can be obtained by performing optimization on $\norm{\wt\Omega_{\rDD:\rSB}}$ akin to what we did for the ideal case, rather than using triangular inequality. But the current form is enough to serve our purpose. 
-For verification, we numerically simulated PDD with noisy pulses and compare the results with our our break even conditions in \Figref{fig:pdd-noisy-pulse}. 
-Specifically, for each fixed tuple of parameters $(\phi_\rB,\phi_\rSB,\eta)$, we randomly generate 300 sets of the Hermitian matrices $\{\Omega,\Gamma',\Gamma''\}$
-satisfying the given parameters over a uniform distribution. Noisy PDD is simulated for each particular set of  bare Hamiltonian and noisy pulses; the noise reduction ratio $\wt\Phi_\rSB/\phi_\rSB$ is obtained and numerically maximized for the fixed $(\phi_\rB,\phi_\rSB,\eta)$. 
-We used two figures to visualize the effect of noisy pulses. First is the deformation---or shrinking to be exact---of the noise removal region in the $(\phi_\rB,\phi_\rSB)$ phase diagram. Second is the dependence between the maximally allowed noise versus the free-evolution noise. From the figure we can see that our first order condition works well as long as the noise parameter $(\phi_\rB,\phi_\rSB)$ is weak and the second order condition is more universally applicable for a wider range of conditions.
+For verification, we numerically simulated PDD with noisy pulses and compare the results with our our break even conditions. The results are shown in \Figref{fig:pdd-noisy-pulse}. 
+To generate the diagrams, for each fixed tuple of parameters $(\phi_\rB,\phi_\rSB,\eta)$, we randomly generate 300 sets of the Hermitian matrices $\{\Omega,\Gamma',\Gamma''\}$ over a uniform distribution 
+satisfying the given parameters. Noisy PDD is simulated to obtain the noise reduction ratio $\wt\Phi_\rSB/\phi_\rSB$ for each particular set of $\{\Omega,\Gamma',\Gamma''\}$ as inputs. The maximal noise reduction value, which should reflect the worst case performance, is recorded for each fixed $(\phi_\rB,\phi_\rSB,\eta)$ parameter. 
+The effects of noisy gates are visualized from two aspects: the shrinking of the noise removal region in the $(\phi_\rB,\phi_\rSB)$ diagram compared to the ideal case (\Figref{fig:pdd-noisy-pulse1}); and the relation between the maximally tolerable gate noise strength versus the environmental noise strength
+ (\Figref{fig:pdd-noisy-pulse2}). From the figures we can see that our first order condition works well as long as the noise parameter $(\phi_\rB,\phi_\rSB)$ is weak and the second order condition is applicable even when the noise strength parameters are not necessarily small.
 
 
 
  \begin{figure}
  \centering
- \begin{subfigure}{0.8\linewidth}
-\includegraphics[height=0.9\linewidth]{pdd-noisypulse1}
-\caption{$\eta =0.03$.}
+\begin{subfigure}{0.9\linewidth}
+\includegraphics[width=\linewidth]{pdd-noisypulse1}
+\caption{Fixed gate noise strength at $\eta =0.03$.}
 \label{fig:pdd-noisy-pulse1}
 \end{subfigure}
 \\
-\begin{subfigure}{0.8\linewidth}
-\includegraphics[height=0.9\linewidth]{pdd-noisypulse2}
-\caption{$\phi_\rB =0.05$.}
+\begin{subfigure}{0.9\linewidth}
+\includegraphics[width=\linewidth]{pdd-noisypulse2}
+\caption{Fixed environmental noise at $\phi_\rB =0.05$.}
 \label{fig:pdd-noisy-pulse2}
 \end{subfigure}
-\caption{The maximal noise reduction ratio for the noisy PDD. A point is colored yellow if the noise is reduced after PDD.  The first order condition is indicated with the red solid line while the second order condition is indicated with the red dashed line. }
+\caption{The noise reduction diagrams for noisy PDD with either fixed gate noise strength or environmental noise strength. The first order and second conditions derived in the main text are indicated with red solid lines and red dashed line respectively for comparison. }
 \label{fig:pdd-noisy-pulse}
 \end{figure}
 
-
-
-We now examine the special scenario where the first order decoupling is exact, which requires $B''_1+B'_3=0$. It can be shown that this condition actually corresponds to a ``weakly gate-dependent'' noise model:
+According to \Eqref{eq:PDDnp-firstorder}, the leading order term that acts non-trivially on the system is proportional to $\eta(B_1''+B_3')$. 
+As the condition $B''_1+B'_3=0$ corresponding to a zero measure set, exact first order decoupling is lost assuming no particular relation between the $X$ and $Z$ noise. 
+This seems to indicate that PDD is impractical as its very usefulness lies in its ability to achieve first decoupling. 
+The counterargument to the above is that the Magnus series is artificial and an non-zero 
+first order term need not indicate large noise. It is more inspirational to relax upon first order decoupling and measuring noise strength in terms of the smallness parameter $\eta$.  Hence an alternative condition should be 
+considered. The revised first order condition demands:
+\begin{equation}
+ \wt\Omega_{\rDD:\rSB}\up{1} = \cO(\eta^2).
+\end{equation}
+It can be shown that a sufficient condition for this is the case of ``weakly gate-dependent'' noise.
+For the most generic noisy pulses, we can write introduce the gate-noise decomposition $\wtP_i = P_i \upe^{-\upi \eta \Gamma_i}$. The weak gate-dependence assumption is demanding that the variance in $\Gamma_i$  
+is at most on the order of the smallness parameter $\eta$. Hence, 
 \begin{equation}\label{eq:gateindep1}
  \wtP_i = P_i \upe^{-\upi \eta \Gamma + \cO(\eta^2)},\ \forall i.
 \end{equation}
-For the most generic noisy pulses, we can write introduce the gate-noise decomposition $\wtP_i = P_i \upe^{-\upi \eta \Gamma_i}$. The weak gate-dependence assumption is demanding that the variance in $\Gamma_i$  
-is at most on the order of the smallness parameter $\eta$.
-In other words, the dependence of the noise on the gate is weak. If this condition is 
+In other words, the dependence of the noise on the gate is of higher order. If this condition is 
  satisfied, then the time evolution readily reduces to the ideal DD case by replacing $\Omega=\tau H$ for free evolution with an effective Hamiltonian $\wtO$ such that
 \begin{equation}
 \upe^{-\upi \wtO}=\upe^{-\upi \eta \Gamma}\upe^{-\upi \Omega}.
 \end{equation}
 Since $\Gamma$ and $\Omega$ are both small, as required for DD to work,
 one may invoke the BCH formula to get $\wtO$ as a series of nested commutators. 
-The already established map $\Omega\to \Omega_{\rDD}$ for the idea-pulse DD sequence can then be reused to estimate $\Omega_{\rDD}$
-Naturally, we recover exact first order decoupling for PDD. To derive the break-even condition for such weakly gate-dependent noise, 
+Thus obtained $\wt \Omega$ is accurate to the second order in $\eta$.
+The already established map $\Omega\to \Omega_{\rDD}$ for the idea-pulse DD sequence can then be reused to estimate $\Omega_{\rDD}$.
+Naturally, we recover the decoupling behavior for ideal DD. To derive the break-even condition for such weakly gate-dependent noise, 
 we retain the BCH series to the second order term, and then apply triangular inequality to derive the upper bounds for $(\widetilde\phi_\rB,\widetilde{\phi}_\rSB) \equiv( \norm{\wtO_\rB}, \norm{\wtO_\rSB})$:
 \begin{equation}\label{eq:comb-bound}
 \left\{
@@ -572,12 +583,12 @@ $\theta_\mathrm{max}= 1/8$. Furthermore, we can solve for $\theta$ in terms of $
 It states that for the regime where the the free evolution noise is small, gate noise should at most be on the order of the square root of the free evolution noise. This  is quite different from the generic noise case where the upper bound dependence in $\phi_\rSB$ is linear. 
 
 
-\subsubsection{Gates of finite duration}
+\subsubsection{Control signals of shape}
 In reality the control Hamiltonian cannot be made infinitely large and 
 has a finite duration. This contributes to an extra source of noise in addition
-to the free evolution noise.  In this section, we consider such type of noise. 
+to the free evolution noise and control error.  In this section, we consider such type of noise. 
 
-The simplest example is that of the finite width rectangular pulses. Assuming the gate pulse is $\tau_p$, the Hamiltonian  for the $i$th gate interval is split into two constant pieces: $H=H_c+H_e$ for $t_i -\tau_p  < t \le t_{i}$ when the control is in applied, while $H=H_e$ for other times. The control Hamiltonian is assumed to satisfy $P_i = \upe^{-\upi \tau_p H_c }$.
+The simplest example is that of the finite width rectangular pulses. Assuming the pulse duration is $\tau_p$, the Hamiltonian  for the $i$th gate interval is split into two constant pieces: $H=H_e+H_c$ for $t_i -\tau_p  < t \le t_{i}$ when the control is in applied, while $H=H_e$ for other times. The control Hamiltonian is assumed to satisfy $P_i = \upe^{-\upi \tau_p H_c }$.
 A similar noise model was first considered in the original CDD paper~\!\cite{khodjasteh2007performance} for the convergence proof. Let us work out a slightly more involved model where apart from the finite width, the control Hamiltonian is also infested with a small control error denoted by $\epsilon\Gamma_i$, with $\max{(\Gamma_i)}=1, \forall i$ and $\epsilon\ll 1$.  Namely, without the environment noise, the $i$th control gate
 is $ \upe^{-\upi (\Omega_{P_i} +\epsilon \Gamma_i)}$, where $\upe^{-\upi \Omega_{P_i} }$ is the ideal gate. 
 We write solution to the time-evolution operator as:
@@ -588,34 +599,46 @@ We write solution to the time-evolution operator as:
 The ratio $\tau_p/\tau$ between the pulse width and the gate interval and is typically considered to be small, hence so is the noise term $(\tau_p/\tau)\Omega$. Despite having a finite gate width,  one can immediately convert such case to the instantaneous pulse model.
 To do so, one simply need to replace the free evolution generator with $ (1-(\tau_p/\tau)) \Omega$ and the pulse noise generator  with $\epsilon \Gamma_i + (\tau_p/\tau) \Omega$ in \Eqref{eq:npulses-Pi}.
 In terms of PDD with noisy pulses considered previously, to obtain the Magnus series for the finite width scenario, all we need is to make the substitutions $B_i \to (1-(\tau_p/\tau)) B_i$, $\eta B_i' \to (\tau_p/\tau) B_i + \epsilon B_i'$ and $\eta B_i'' \to (\tau_p/\tau) B_i + \epsilon B_i''$ in the original results. Using the first order expansion, we estimate the error phase as 
-\begin{equation}
+\begin{equation}\label{eq:PDD-rect1}
 \norm{ \wt\Omega_{\rDD:\rSB}\up{1} }\le \frac{4\sqrt{2}}{\pi} (\frac{\tau_p}{\tau})\phi_\rSB +  \frac{8}{\pi} \epsilon.
 \end{equation}
-We see that the error phase contribution from the finite width is automatically on the second order smallness if we assume $\tau_p\ll \tau$, this is different from the control error, which contributes to the first order smallness. 
-This suggests DD is very tolerant to the finite width error. If the gate control error is absent, the first order breakeven condition suggests
+In the limit where gate control error is negligible, the first order breakeven condition suggests
 \begin{equation}
- \tau_p/\tau \le \frac{\pi}{4\sqrt{2}}\approx 0.555,
+ \tau_p/\tau \le \frac{\pi}{4\sqrt{2}}\approx 0.55,
 \end{equation}
-to be sufficient for noise reduction.
-For the second order breakeven condition, we can simply substitute the effective noise strength $\eta = \epsilon + \frac{\tau_p}{\tau}\phi_\rSB$ to \Eqref{eq:npulses-breakeven2}.
+to be sufficient for noise reduction. This inequality suggests that in order for DD to be useful, the duration of the control Hamiltonian should be at least be around half of the gate interval.  According to \Eqref{eq:PDD-rect1}, the sharper is the pulse, the better the noise removal will be in general.
+On the other hand, we see that the error phase contribution from the finite width is automatically on the second order smallness if we assume $\tau_p\ll \tau$. This suggests DD is tolerant to the finite width error. In contract, the control error directly contributes to the first order smallness and could be more harmful. 
 
 
-We now consider the more generic situation. The total Hamiltonian can be split into three parts:
-\begin{equation}
- H(t)= H_e + H_g(t) + H_{ge}(t),
+We now consider the more generic situation where the control signal 
+can be of arbitrarily shape while also accounting for the gate error. The total Hamiltonian for such case can be split into three parts:
+\begin{equation}\label{eq:Hami-3parts}
+ H(t)= H_e +H_g(t) + H_{ge}(t), \ 0\le t\le \tau,
 \end{equation}
-where the applied control Hamiltonian is
-written as a sum of the gate control $H_g(t)$ and the gate error $H_{ge}(t)$. The $H_g(t)$  term is supported on the system and generates the exact gate $P_i$. We define the time evolution operator:
+where the control Hamiltonian is
+written as a sum of the gate Hamiltonian $H_g(t)$ and the gate error Hamiltonian $H_{ge}(t)$. The time origin is shifted to the start of the $P_g$-gate interval for simplicity. The $H_g(t)$  term is supported on the system and generates the exact gate $P_g$. 
+In the case of PDD, the gate Hamiltonian generating $P_X$ and $P_Z$  is set to be proportional to the $\sigma_X$ and $\sigma_Z$ respectively but can take on arbitrary shape: 
 \begin{equation}
-U_g(t) = \mathcal{T}_\leftarrow \upe^{-\upi \int_{0}^{t} H_g(s) \dd s},
+ H_g(t) = \frac{1}{2}\omega_g(t)\sigma_g,\quad g=X,Z,
 \end{equation}
-with $U_g(\tau)= P_i$, where $ \mathcal{T}_\leftarrow$ is the time ordering operator. In \Eqref{eq:noisy-gate-formal}, we
-write the time evolution operator as $P_i \upe^{-\upi \wt \Omega_i}$, which effectively implies the interaction picture defined by $H_g(t)$. In other words,  the effective free evolution operator $\upe^{-\upi \wt \Omega_i}$  is generated by the interaction picture Hamiltonian 
+where the function $\omega_g(t)$ specifies the shape of the pulse and satisfies the constraint that its time integral, $\theta_g(t)\equiv \int_0^t \omega_g(t') \dd t'$, with $\theta_g(\tau)=\pi$.
+Following this constraint, the time evolution operator
+$U_g(t)$ generated by $H_g(t)$
+recovers the ideal gate at the end of each gate interval. We isolate the pure gate part by splitting the total time evolution as $U(\tau)=P_g \upe^{-\upi \wt \Omega_g}$. As $P_g=U_g(\tau)$, we introduce the interaction picture Hamiltonian 
+$\wt H(t)\equiv U_g^\dagger(t) (H_e + H_{ge} (t)) U_g(t)$, then the effective free evolution operator is given by:
+$\upe^{-\upi \wt \Omega_g} = \cT_{\leftarrow} \upe^{-\upi \int_0^\tau \wt H(t) \dd t}$,
+where $\cT_{\leftarrow}$ is the time-ordering operator. Since the exponential term is small, we approximate $\wt \Omega_g$ by the leading order Magnus series:
 \begin{equation}
-H\up{I}(t)=U_g^\dagger(t) (H_e + H_{ge} (t)) U_g(t),
+ \wt \Omega_g \approx\! \int_0^\tau\!\! U_g^\dagger(t) H_e U_g(t) \dd t\, + \! \int_0^\tau\!\! U_g^\dagger(t) H_{ge}(t) U_g(t) \dd t.
+\end{equation} 
+We regard the first term in the above as the pulse shape term and the second term as the pulse error term. 
+We first bound the pulse error term by the smallness parameter
+\begin{equation}
+ \norm{\int_0^\tau\!\! U_g^\dagger(t) H_{ge}(t) U_g(t) \dd t} 
+ \le  \int_0^\tau\!\! \norm{H_{ge}(t)} \dd t \equiv  \epsilon.
 \end{equation}
-during the time interval $(0,\tau)$.
-We calculate the time evolution by slicing the time interval $(0,\tau)$ into $N$ pieces and take the $N\to\infty$ limit:
+
+calculate the time evolution by slicing the time interval $(0,\tau)$ into $N$ pieces and take the $N\to\infty$ limit:
 \begin{equation}
  \upe^{-\upi \wt \Omega_i} = \lim_{N\to\infty} \prod_{k=1}^N 
  \upe^{-\upi \tau H\up{I}(k \tau/N)/N}
@@ -781,8 +804,101 @@ Eventually, of course, this becomes limited by the technological---not fundament
 \blue{(Acknowledge Gu Yanwu, Jonas Tan, and Ryan Tiew, who did some of the first calculations of the breakeven points for PDD. Yanwu should be asked if he wants to be a co-author.)}
 
 
-
+\newpage
 \appendix
+\section{Derivation for equations (\ref{eq:PDDnp-Gamma})}\label{app:PDDnpDerivation}
+Here we explain the detailed steps to derive Eqs.~\!(\ref{eq:PDDnp-Gamma}).
+In the following, we make no practical distinction between the notations $I,X,Y,Z$ and $\sigma_0,\sigma_1,\sigma_2,\sigma_3$ except that we prefer to use the former 
+expression for unitary transformations and the latter for Lie algebra elements.
+
+First, using their definitions, we can rewrite $\upe^{-\upi\Gamma_i}\, (i=0,1,2,3)$  in a more uniformed manner: 
+\begin{subequations} \label{app:PDDnp-expGamma}
+ \begin{align}
+ \label{app:PDDnp-expGamma3}
+\upe^{-\upi \Gamma_3} &=\wt Z Z &&=
+Z \upe^{-\upi  \tfrac{\pi}{2} \sigma_3 -\upi \eta \sigma_3\Gamma''\sigma_3},\\
+\label{app:PDDnp-expGamma2}
+\upe^{-\upi \Gamma_2} &= Z \wt X Y &&=
+X \upe^{+\upi  \tfrac{\pi}{2} \sigma_1 -\upi \eta \sigma_2\Gamma'\sigma_2},\\
+\label{app:PDDnp-expGamma1}
+\upe^{-\upi \Gamma_1} &= Y \wt Z X &&=
+Z \upe^{+\upi  \tfrac{\pi}{2} \sigma_3 -\upi \eta \sigma_1\Gamma''\sigma_1},\\
+\label{app:PDDnp-expGamma0}
+\upe^{-\upi \Gamma_0} &= X \wt X &&= 
+X \upe^{-\upi  \tfrac{\pi}{2} \sigma_1 -\upi \eta\Gamma'}.
+\end{align}
+\end{subequations}
+Notice that here we have ignored the multiplicative factor $(-i)$ in \Eqref{app:PDDnp-expGamma2} and \Eqref{app:PDDnp-expGamma1} since they contribute to global phase factor only.
+
+The goal is to calculate $\Gamma_i$ to the leading order in the smallness $\eta$.
+To achieve this, we cite a formula from matrix group theory (see e.g. book \cite{rossmann2006lie} page 15):
+\begin{equation}
+ \frac{\dd}{\dd t} \upe^{X} = \upe^{X} \frac{1- \upe^{-\ad_X}}{\ad_X}\frac{\dd X}{\dd t},
+\end{equation}
+where $X$ is matrix-valued differentiable function of the scalar  variable $t$.
+With the knowledge for taking derivatives, we can use Taylor expansion to derive the following approximation formula:
+\begin{equation}\label{app:approx-liealgebra}
+\begin{aligned}
+  \upe^{-A} \upe^{A+ t B} &= 1 + t\, \frac{1-\upe^{-\ad_A}}{\ad_A} B +\cO(t^2)\\
+ &= \exp\left[t\, \frac{1-\upe^{-\ad_A}}{\ad_A} B + \cO(t^2)\right],
+\end{aligned}
+\end{equation}
+for general matrix operators $A$ and $B$ independent of the small real number $t$.
+Apply \Eqref{app:approx-liealgebra}  to Eqs.~\!(\ref{app:PDDnp-expGamma}), we obtain the following expressions for $\Gamma_i$ :
+\begin{subequations} \label{app:PDDnp-Gamma}
+\begin{align}\label{app:PDDnp-Gamma3}
+  \Gamma_3 &= \eta\, \frac{1-\upe^{-\frac{\pi}{2\upi} \ad_Z}}{ \frac{\pi}{2\upi} \ad_Z} (\sigma_3\Gamma''\sigma_3) + \cO(\eta^2),\\
+  \Gamma_2 &= \eta\, \frac{1-\upe^{\frac{\pi}{2\upi} \ad_X}}{ -\frac{\pi}{2\upi} \ad_X} (\sigma_2\Gamma'\sigma_2) + \cO(\eta^2),\\
+  \Gamma_1 &= \eta\, \frac{1-\upe^{\frac{\pi}{2\upi} \ad_Z}}{-\frac{\pi}{2\upi} \ad_Z} (\sigma_1\Gamma''\sigma_1) + \cO(\eta^2),\\
+  \Gamma_0 &= \eta\, \frac{1-\upe^{-\frac{\pi}{2\upi} \ad_X}}{ \frac{\pi}{2\upi} \ad_X} (\Gamma') + \cO(\eta^2).
+\end{align}
+\end{subequations}
+The expressions in Eqs.~\!(\ref{app:PDDnp-Gamma}) can be further calculated
+by writing out the series expansion for the leading order terms in $\eta$. 
+Let us focus on $\Gamma_3$, the leading oder term of which, according to \Eqref{app:PDDnp-Gamma3},  involves in the operator series:
+\begin{equation}\label{app:PDDnp-G3series}
+\sum_{k=0}^\infty \frac{(-\pi)^k }{(k+1)!}
+ \left(\frac{1}{2\upi }\ad_Z\right)^k(\sigma_3 \Gamma''\sigma_3).
+\end{equation}
+Having introduced the decomposition for $\Gamma''$, we have
+\begin{equation}
+ \sigma_3\Gamma''\sigma_3 = \sigma_0 \otimes B'_0 -\sigma_1 \otimes B'_1
+  -\sigma_2 \otimes B'_2 +\sigma_3 \otimes B'_3.
+\end{equation}
+We may explicitly calculate the commutator $[Z,\sigma_3\Gamma''\sigma_3]$ and higher order nested commutators in \Eqref{app:PDDnp-G3series}. By inspection, the results fall in a total of four possible cases:
+\begin{equation}
+\begin{aligned}
+  \Bigl(\frac{1}{2\upi}\ad_Z\Bigr)^{4n+1} (\sigma_3\Gamma''\sigma_3) &= 
+ -\, \sigma_2 \otimes B_1'' + \sigma_1\otimes B''_2,\\
+   \Bigl(\frac{1}{2\upi}\ad_Z\Bigr)^{4n+2} (\sigma_3\Gamma''\sigma_3) &= 
+ +\,\sigma_1 \otimes B_1'' + \sigma_2\otimes B''_2,\\
+  \Bigl(\frac{1}{2\upi}\ad_Z\Bigr)^{4n+3} (\sigma_3\Gamma''\sigma_3) &= 
+ +\,\sigma_2 \otimes B_1'' - \sigma_1\otimes B''_2,\\
+  \Bigl(\frac{1}{2\upi}\ad_Z\Bigr)^{4n+4} (\sigma_3\Gamma''\sigma_3) &= 
+ -\, \sigma_1 \otimes B_1'' - \sigma_2\otimes B''_2,\\
+\end{aligned}
+\end{equation}
+for integer $n\ge0$. Hence, we can calculate \Eqref{app:PDDnp-Gamma3} by 
+\begin{equation}
+\begin{aligned}
+  (\cdots)={} &\sigma_0 \otimes B_0'' + \sigma_3 \otimes B_3''\\
+ &\begin{aligned}
+  &-\bigl(1-\frac{\pi^2}{3!}+\frac{\pi^4}{5!}+\cdots\bigr) \sigma_1 \otimes B_1''\\
+  &+\bigl(\frac{\pi}{2!}-\frac{\pi^3}{4!}+\frac{\pi^5}{6!}+\cdots\bigr) \sigma_2 \otimes B_1''\\
+  &-\bigl(1-\frac{\pi^2}{3!}+\frac{\pi^4}{5!}+\cdots\bigr) \sigma_2 \otimes B_2''\\
+  &-\bigl(\frac{\pi}{2!}-\frac{\pi^3}{4!}+\frac{\pi^5}{6!}+\cdots\bigr)\sigma_1 \otimes B_2''
+ \end{aligned}\\
+ ={} & \sigma_0 \otimes B_0'' + \sigma_3 \otimes B_3''-\frac{\sin\pi}{\pi} (\sigma_1 \otimes B_1'' + \sigma_2 \otimes B_2'')\\
+&+\frac{1-\cos\pi}{\pi} (\sigma_2 \otimes B_1'' - \sigma_1 \otimes B_2'')\\
+={}&\sigma_0 \otimes B_0'' 
+-\frac{2}{\pi}  \sigma_1 \otimes B_2''
++\frac{2}{\pi} \sigma_2 \otimes B_1'' + \sigma_3 \otimes B_3''.
+\end{aligned}
+\end{equation}
+This leads to the expression for $\Gamma_3$ in \Eqref{eq:PDDnp-Gamma}.
+One can proceed to verify $\Gamma_2$, $\Gamma_1$ and $\Gamma_0$ using similar steps. 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analyzing $\CDDn$}\label{app:CDD}
