@@ -583,85 +583,164 @@ $\theta_\mathrm{max}= 1/8$. Furthermore, we can solve for $\theta$ in terms of $
 It states that for the regime where the the free evolution noise is small, gate noise should at most be on the order of the square root of the free evolution noise. This  is quite different from the generic noise case where the upper bound dependence in $\phi_\rSB$ is linear. 
 
 
-\subsubsection{Control signals of shape}
-In reality the control Hamiltonian cannot be made infinitely large and 
-has a finite duration. This contributes to an extra source of noise in addition
-to the free evolution noise and control error.  In this section, we consider such type of noise. 
+\subsubsection{Control signals of finite strength}
+In reality the control signals have finite strength hence non-zero durations.
+This deviation from the delta function contributes to an extra source of noise, which adds to the already existing gate control error. 
+ In this section, we consider such source of noise. 
 
-The simplest example is that of the finite width rectangular pulses. Assuming the pulse duration is $\tau_p$, the Hamiltonian  for the $i$th gate interval is split into two constant pieces: $H=H_e+H_c$ for $t_i -\tau_p  < t \le t_{i}$ when the control is in applied, while $H=H_e$ for other times. The control Hamiltonian is assumed to satisfy $P_i = \upe^{-\upi \tau_p H_c }$.
-A similar noise model was first considered in the original CDD paper~\!\cite{khodjasteh2007performance} for the convergence proof. Let us work out a slightly more involved model where apart from the finite width, the control Hamiltonian is also infested with a small control error denoted by $\epsilon\Gamma_i$, with $\max{(\Gamma_i)}=1, \forall i$ and $\epsilon\ll 1$.  Namely, without the environment noise, the $i$th control gate
+
+The simplest example is that of the rectangular signals. Assuming the pulse duration is $\tau_p$, the Hamiltonian  for the $i$th gate interval is split into two constant pieces: $H=H_e+H_c$ for $t_i -\tau_p  < t \le t_{i}$ under external control, and $H=H_e$ when control is off. The control Hamiltonian is assumed to satisfy $P_i = \upe^{-\upi \tau_p H_c }$.
+Such noise model was considered in the original CDD paper~\!\cite{khodjasteh2007performance}. 
+Here we work out a slightly more involved model, where apart from the finite width, the control Hamiltonian is also infested with a small control error denoted by $\epsilon\Gamma_i$, with $\max{(\Gamma_i)}=1, \forall i$ and $\epsilon\ll 1$.  Namely, without the environment noise, the $i$th control gate
 is $ \upe^{-\upi (\Omega_{P_i} +\epsilon \Gamma_i)}$, where $\upe^{-\upi \Omega_{P_i} }$ is the ideal gate. 
 We write solution to the time-evolution operator as:
 \begin{equation}
  \wt U(t_{i},t_{i-1}) =  \upe^{-\upi (\Omega_{P_i} +\epsilon \Gamma_i+
  (\tau_p/\tau) \Omega)}  \upe^{-\upi (1-(\tau_p/\tau)) \Omega}.
 \end{equation}
-The ratio $\tau_p/\tau$ between the pulse width and the gate interval and is typically considered to be small, hence so is the noise term $(\tau_p/\tau)\Omega$. Despite having a finite gate width,  one can immediately convert such case to the instantaneous pulse model.
-To do so, one simply need to replace the free evolution generator with $ (1-(\tau_p/\tau)) \Omega$ and the pulse noise generator  with $\epsilon \Gamma_i + (\tau_p/\tau) \Omega$ in \Eqref{eq:npulses-Pi}.
-In terms of PDD with noisy pulses considered previously, to obtain the Magnus series for the finite width scenario, all we need is to make the substitutions $B_i \to (1-(\tau_p/\tau)) B_i$, $\eta B_i' \to (\tau_p/\tau) B_i + \epsilon B_i'$ and $\eta B_i'' \to (\tau_p/\tau) B_i + \epsilon B_i''$ in the original results. Using the first order expansion, we estimate the error phase as 
+Despite being a finite width model, one can convert such case back to the noisy pulse model.
+To do so, one simply replace the free evolution generator $\Omega\to (1-(\tau_p/\tau)) \Omega$ and the pulse noise generator $\eta\Gamma$  in \Eqref{eq:npulses-Pi} with $\epsilon \Gamma_i + (\tau_p/\tau) \Omega$.
+In terms of PDD, all we need to obtain the Magnus series is the substitutions $B_i \to (1-(\tau_p/\tau)) B_i$, $\eta B_i' \to (\tau_p/\tau) B_i + \epsilon B_i'$ and $\eta B_i'' \to (\tau_p/\tau) B_i + \epsilon B_i''$ in the results for noisy pulses. Using \Eqref{eq:PDDnp-firstorder} to derive the first order term, we can estimate the error phase and consequently derivative the breakeven condition as
 \begin{equation}\label{eq:PDD-rect1}
-\norm{ \wt\Omega_{\rDD:\rSB}\up{1} }\le \frac{4\sqrt{2}}{\pi} (\frac{\tau_p}{\tau})\phi_\rSB +  \frac{8}{\pi} \epsilon.
+\wt\Phi_{\rSB}\lesssim \frac{8}{\pi} (\frac{\tau_p}{\tau})\phi_\rSB +  \frac{8}{\pi} \epsilon\le\phi_\rSB.
 \end{equation}
+The ratio $\tau_p/\tau$ between the pulse width and the gate interval and is typically considered to be small. Hence the error phase contribution from the finite width is on the second order smallness if this additional smallness parameter is taken into account. In comparison,
+the control error directly contributes to the first order smallness. 
+This suggests DD is relatively more tolerant to the finite width error.
 In the limit where gate control error is negligible, the first order breakeven condition suggests
 \begin{equation}
- \tau_p/\tau \le \frac{\pi}{4\sqrt{2}}\approx 0.55,
+ \tau_p/\tau \le \frac{\pi}{8}\approx 0.39,
 \end{equation}
-to be sufficient for noise reduction. This inequality suggests that in order for DD to be useful, the duration of the control Hamiltonian should be at least be around half of the gate interval.  According to \Eqref{eq:PDD-rect1}, the sharper is the pulse, the better the noise removal will be in general.
-On the other hand, we see that the error phase contribution from the finite width is automatically on the second order smallness if we assume $\tau_p\ll \tau$. This suggests DD is tolerant to the finite width error. In contract, the control error directly contributes to the first order smallness and could be more harmful. 
+to be sufficient for noise reduction. 
+This suggests that in order for DD to be useful, the control signal should be more pulse-like. Notice that this condition is derived without any control noise in mind. It puts an upper bound on how 
+fast we are allowed to perform DD even with perfect control. That is, the 
+control signals should be somewhat sparse and allow time for the free evolution instead of jamming together.
 
 
-We now consider the more generic situation where the control signal 
-can be of arbitrarily shape while also accounting for the gate error. The total Hamiltonian for such case can be split into three parts:
+Extending beyond the simple rectangular signal model, we now consider a more generic situation where the control signal can be of arbitrarily shape while also accounting for the gate control error. After shifting the time origin for simplicity, the total Hamiltonian within a gate interval can be split into three parts:
 \begin{equation}\label{eq:Hami-3parts}
- H(t)= H_e +H_g(t) + H_{ge}(t), \ 0\le t\le \tau,
+ H(t)= H_g(t) +  H_e +  H_{ge}(t), \ 0\le t\le \tau,
 \end{equation}
-where the control Hamiltonian is
-written as a sum of the gate Hamiltonian $H_g(t)$ and the gate error Hamiltonian $H_{ge}(t)$. The time origin is shifted to the start of the $P_g$-gate interval for simplicity. The $H_g(t)$  term is supported on the system and generates the exact gate $P_g$. 
-In the case of PDD, the gate Hamiltonian generating $P_X$ and $P_Z$  is set to be proportional to the $\sigma_X$ and $\sigma_Z$ respectively but can take on arbitrary shape: 
+where $H_g(t)$ is the ``gate'' Hamiltonian, responsible for the perfect gate; 
+$H_e$ is the system-bath coupling Hamilton responsible for the free evolution noise,
+and $H_{ge}(t)$ is the gate error Hamiltonian responsible for the control error. It is assumed that the control signal $H_g(t)$ is pulse-like and much greater than the two noise terms when control is turned on.
+We isolate the pure gate part by writing the time evolution as 
 \begin{equation}
- H_g(t) = \frac{1}{2}\omega_g(t)\sigma_g,\quad g=X,Z,
+ U(\tau)=P_g \upe^{-\upi \wt \Omega_g},
 \end{equation}
-where the function $\omega_g(t)$ specifies the shape of the pulse and satisfies the constraint that its time integral, $\theta_g(t)\equiv \int_0^t \omega_g(t') \dd t'$, with $\theta_g(\tau)=\pi$.
-Following this constraint, the time evolution operator
-$U_g(t)$ generated by $H_g(t)$
-recovers the ideal gate at the end of each gate interval. We isolate the pure gate part by splitting the total time evolution as $U(\tau)=P_g \upe^{-\upi \wt \Omega_g}$. As $P_g=U_g(\tau)$, we introduce the interaction picture Hamiltonian 
-$\wt H(t)\equiv U_g^\dagger(t) (H_e + H_{ge} (t)) U_g(t)$, then the effective free evolution operator is given by:
-$\upe^{-\upi \wt \Omega_g} = \cT_{\leftarrow} \upe^{-\upi \int_0^\tau \wt H(t) \dd t}$,
-where $\cT_{\leftarrow}$ is the time-ordering operator. Since the exponential term is small, we approximate $\wt \Omega_g$ by the leading order Magnus series:
+ where $P_g=U_g(\tau)$ is the gate unitary generated by $H_g(t)$.
+The interaction picture Hamiltonian defined by
+$\wt H(t)\equiv U_g^\dagger(t) (H_e + H_{ge} (t)) U_g(t)$ completes the time evolution operator $\upe^{-\upi \wt \Omega_g}$
+at $t=\tau$. 
+Since both $H_e(t)$ and $H_{ge}(t)$ are small, we can approximate $\wt \Omega_g$ by neglecting their higher order commutators:
 \begin{equation}
  \wt \Omega_g \approx\! \int_0^\tau\!\! U_g^\dagger(t) H_e U_g(t) \dd t\, + \! \int_0^\tau\!\! U_g^\dagger(t) H_{ge}(t) U_g(t) \dd t.
 \end{equation} 
-We regard the first term in the above as the pulse shape term and the second term as the pulse error term. 
-We first bound the pulse error term by the smallness parameter
+We refer the first term in the above as the signal shape term and the second term as the pulse error term. 
+
+The signal shape term is very dependent on the control signal $H_g(t)$. But anyway let us formally express the case for $X$ and $Z$ gates as:
+\begin{equation}\label{eq:sigshape-formal}
+\begin{aligned}
+\int_0^\tau\!\! U_X^\dagger(t) H_e U_X(t) \dd t &\equiv\sigma_0 B_0
+ +\sigma_1 B_1' + \sigma_2 B_2'+\sigma_3 B_3',\\
+\int_0^\tau\!\! U_Z^\dagger(t) H_e U_Z(t) \dd t &\equiv\sigma_0 B_0
+ +\sigma_1 B_1'' + \sigma_2 B_2''+\sigma_3 B_3'',
+ \end{aligned}
+\end{equation}
+where we have note that the $B_0$ component is invariant
+under system unitary conjugation.
+To deal with the time-dependent pulse error term,  we simply bound it by
 \begin{equation}
  \norm{\int_0^\tau\!\! U_g^\dagger(t) H_{ge}(t) U_g(t) \dd t} 
- \le  \int_0^\tau\!\! \norm{H_{ge}(t)} \dd t \equiv  \epsilon.
+ \le  \int_0^\tau\!\! \norm{H_{ge}(t)} \dd t \equiv  \eta_{ge},
 \end{equation}
+where the small number $\eta_{ge}$ absorbs any time-dependence of the control Hamiltonian.
+Hence we may effectively replace the pulse error term with a gate-dependent error map $\eta_{ge} \Gamma_g$, where $\Gamma_g$ is Hermitian and $\norm{\Gamma_g}\le 1$. For convenience, let us assume 
+$\Gamma_X = \sum_i \sigma_i \otimes A'_i$ and
+$\Gamma_Z = \sum_i \sigma_i \otimes A''_i$.
+After substituting the expressions for the signal shape term and pulse error term into $\wt\Omega_X$ and $\wt\Omega_Z$, we are able to derive the 
+effective Hamiltonian using the Magnus expansion. 
+The first order term yields:
+\begin{equation}
+\begin{aligned}
+  \wt\Omega_{\rDD}\up{1}&= 
+  \sigma_0\otimes (4B_0 + 2\eta_{ge} (A_0'+A_0''))\\
+ &+\sigma_2 \otimes (2(B_2' -B_2'')+2\eta_{ge}(A_2'-A_2'')).
+\end{aligned}
+\end{equation}
+Hence, the error phase after noisy PDD can be bounded by
+\begin{equation}\label{eq:nPDDeph1}
+\begin{aligned}
+  \wt\Phi_\rSB \lesssim 2\norm{B_2' -B_2''} + 4\eta_{ge}.
+\end{aligned}
+\end{equation}
+For simplicity, let us assume that the gate Hamiltonian responsible for the Pauli gate $P_g$ is proportional to $\sigma_g$ but the signal strength is arbitrary:
+\begin{equation}
+ H_g(t) = \frac{1}{2}\omega_g(t)\sigma_g,\quad g\in\{X,Z\},
+\end{equation}
+where the time-dependent function $\omega_g(t)$ specifies the shape of the pulse and satisfies the condition that its time integral $\theta_g(\tau)=\pi$, with $\theta_g(t)\equiv \int_0^t \omega_g(t') \dd t'$.
+Within $t=0$ and $\tau$ we have 
+$U_g(t) = \cos({\theta_g(t)}/{2} ) I -\upi \sin({\theta_g(t)}/{2} )\sigma_g$.
+The earlier constraint ensures that $U_g(t)$ recovers the ideal gate at $t=\tau$. 
+After conjugating $H_e\tau = \sum_i \sigma_i \otimes B_i$ with $U_g(t)$,
+we can write the pulse shape term as:
+\begin{equation}\label{eq:pshape-term}
+\begin{aligned}
+&\int_0^\tau\!\! U_g^\dagger(t) H_e U_g(t) \dd t =\sigma_0 B_0  + \\
+ & \left\{
+ \begin{aligned}
+   & \sigma_1 B_1 + 
+   c_X \bigl( \sigma_2  B_2 + 
+   \sigma_3 B_3 \bigr)+ 
+   s_X
+    \bigl(\sigma_2 B_3 - \sigma_3 B_2\bigr),\ g=X;\\
+    &\sigma_3 B_3  + c_Z \bigl( \sigma_1  B_1 + 
+   \sigma_2 B_2 \bigr)+ 
+   s_Z
+    \bigl(\sigma_1 B_2 - \sigma_2 B_1\bigr),\ g=Z,
+ \end{aligned}
+ \right.
+\end{aligned}
+\end{equation}
+where the $c_g$ and $s_g$ coefficients are defined as the time averaged trig-functions:
+\begin{equation}
+ c_g \equiv \frac{1}{\tau}\int_0^\tau \cos(\theta_g(t)) \dd t, \ s_g \equiv \frac{1}{\tau}\int_0^\tau \sin(\theta_g(t)) \dd t.  
+\end{equation}
+For the ideal DD case, which assumes that $H_g(t)=\pi\delta(t-\tau)$ and  $H_{ge}(t)=0$, one can recover $\wt \Omega_X =\wt \Omega_Z = \Omega$ as excepted. 
+On the other hand, if we move the pulse position to some $\tau'\in(0,\tau)$, it appears that $\wt \Omega_X \neq \wt \Omega_Z$. But the difference 
+$B_2'-B_2''$ as defined in \Eqref{eq:sigshape-formal} is still zero, which is all that needed for first order decoupling. Focusing on the difference in the  $B_2$  component, 
+we have 
+\begin{equation}
+\begin{aligned}
+  \norm{B_2'-B_2''} & = \norm{(c_X-c_Z)B_2+s_X B_3 +s_Z B_1}\\
+  &\le (\abs{c_X-c_Z} + \abs{s_X} + \abs{s_Z})\cdot \phi_\rSB.
+\end{aligned}
+\end{equation}
+Here we see that the most general signal shape error is of first order smallness instead of second order for the rectangular signals. 
+We also see that to reduce the signal shape error, one need to make sure that 
+the control signal should have identical shapes for all gates so that $\abs{c_X-c_Z}$
+is negligible; in addition the signal should be sharp to control the size of $\abs{s_g}$ terms. 
 
-calculate the time evolution by slicing the time interval $(0,\tau)$ into $N$ pieces and take the $N\to\infty$ limit:
+For concreteness, we use the rectangular signal, but arbitrarily placed in time to illustrate this point. Assuming the shapes for control signals are gate-independent and satisfies
 \begin{equation}
- \upe^{-\upi \wt \Omega_i} = \lim_{N\to\infty} \prod_{k=1}^N 
- \upe^{-\upi \tau H\up{I}(k \tau/N)/N}
+ \omega_g(t)=
+ \left\{
+ \begin{aligned}
+  &0,&& 0\le t<\tau'\\
+ &\pi/\tau_p, && \tau'\le t < \tau'+\tau_p\\
+ & 0,&& \tau'+\tau_p \le t\le \tau
+ \end{aligned}
+ \right..
 \end{equation}
-A general expression does not exist for $\wt \Omega_i$ but it is possible to estimate the size of $\wt \Omega_i$ which is all we ever need. 
-% Taking the two-component norm, 
-% \begin{equation}
-%  \opnorm{H\up{I}(t)}\le\opnorm{H_e} + \opnorm{H_{ge} (t)},
-% \end{equation}
-% where we have used the property that the two-component norm is invariant under 
-% disjoint unitary transformation.
-Applying the Thompson's formula and taking norm, 
-\begin{equation}
-\begin{split}
- \norm{\wt \Omega_i} &\le \lim_{N\to\infty}\sum_{k=1}^N \frac{1}{N} \norm{\tau H\up{I}(k \tau/N)}\\
- &\le \norm{\Omega} + \int_0^\tau \dd t \norm{H_{ge}(t)}
-\end{split}
+It is straightforward to calculate that $s_g = \frac{2\tau_p}{\pi\tau}$.
+Hence the resulting error phase is independent of $\tau'$.
+After substituting into \Eqref{eq:nPDDeph1}, we arrive at the breakeven condition
+\begin{equation}\label{eq:PDD-rect2}
+  \wt\Phi_{\rSB}\lesssim \frac{8}{\pi} (\frac{\tau_p}{\tau})\phi_\rSB +  
+  4\eta_{ge}\le\phi_\rSB.
 \end{equation}
-Define the noise strength
-\begin{equation}
-\eta =  \int_0^\tau \dd t \norm{H_{ge}(t)}
-\end{equation}
-Then the breakeven condition applies.
+This produces the same behavior compared to \Eqref{eq:PDD-rect1}, apart 
+from numerical factors arisen from difference in gate error definitions. 
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
