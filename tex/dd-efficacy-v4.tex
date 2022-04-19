@@ -1121,7 +1121,7 @@ We may explicitly calculate the commutator $[Z,\sigma_3\Gamma''\sigma_3]$ and hi
  -\, \sigma_1 \otimes B_1'' - \sigma_2\otimes B''_2,\\
 \end{aligned}
 \end{equation}
-for integer $n\ge0$. Hence, we can calculate \Eqref{app:PDDnp-Gamma3} by 
+for integer $n\ge0$. Hence, we can calculate (\ref{app:PDDnp-G3series}) by 
 \begin{equation}
 \begin{aligned}
   (\cdots)={} &\sigma_0 \otimes B_0'' + \sigma_3 \otimes B_3''\\
@@ -1154,22 +1154,22 @@ DD as transformation among the generators.
 At the ground level, we have the bare Hamiltonian $\Omega\equiv\tau H$.
 At the first level, CDD produces $\Omega_1\equiv \Omega_{\mathsf{PDD}}$, which can be further expressed as a series
  $\sum_{m=1}^\infty \Omega_1\up{m}$ through Magnus expansion. 
- To characterize this process, we introduce the $\mathcal{F}$ and $\mathcal{F}\up{m}$ 
+ To characterize this process, we introduce the $\cD$ and $\cD\up{m}$ 
  maps, defined through:
  \begin{equation}
-  \Omega_1 = \mathcal{F}(\Omega), \quad \Omega_1\up{m} = \mathcal{F}\up{m}(\Omega),
+  \Omega_1 = \cD(\Omega), \quad \Omega_1\up{m} = \cD\up{m}(\Omega),
  \end{equation}
-with $\mathcal{F} = \sum_{m=1}^\infty \mathcal{F}\up{m}$
-in correspondence with the Magnus series. In particular, $\mathcal{F}\up{1}$ and $\mathcal{F}\up{2}$ are already given in the main text through \Eqref{eq:PDDMag1} and \Eqref{eq:PDDMag2}. 
+with $\cD = \sum_{m=1}^\infty \cD\up{m}$
+in correspondence with the Magnus series. In particular, $\cD\up{1}$ and $\cD\up{2}$ are already given in the main text through \Eqref{eq:PDDMag1} and \Eqref{eq:PDDMag2}. 
 Higher level concatenations are defined by the iteration map 
 \begin{equation}\label{eq:CDD-update}
-    \Omega_n = \cF(\Omega_{n-1}) = \sum_{m=1}^\infty \cF\up{m}(\Omega_{n-1}).
+    \Omega_n = \cD(\Omega_{n-1}) = \sum_{m=1}^\infty \cD\up{m}(\Omega_{n-1}).
 \end{equation}
 Backtracking the map from level $n$ to level $0$, we have
-$\Omega_{n} = (\cF)^{n}(\Omega)$. In the end, 
+$\Omega_{n} = (\cD)^{n}(\Omega)$. In the end, 
 $\Omega_{n}$ can be expanded as a Magnus series in the bare Hamiltonian. 
 \begin{equation}\label{eq:CDD-magnus}
-\Omega_{n} =\Bigl(\sum_{m=1}^\infty \cF\up{m}\Bigr)^{n}(\Omega)=\sum_{m=1}^\infty \Omega_{n}\up{m},
+\Omega_{n} =\Bigl(\sum_{m=1}^\infty \cD\up{m}\Bigr)^{n}(\Omega)=\sum_{m=1}^\infty \Omega_{n}\up{m},
 \end{equation}
 where $\Omega_{n}\up{m}$ is the $m$th order term for $\Omega_{n}$ in $\Omega$ such that $\Omega_{n}\up{m}  \sim  \norm{\Omega}^m$.
 
@@ -1208,10 +1208,10 @@ The original CDD paper (Ref.\cite{khodjasteh2005fault}) constructed an estimator
 our notation:
 \begin{equation}\label{eq:estimator-trunc}
     \Ohat_{n} \equiv (
-    \cF\up{1} + 
-    \cF\up{2}) (\Ohat_{n-1}) = \big(
-    \cF\up{1} + 
-    \cF\up{2}\big)^n (\Omega).
+    \cD\up{1} + 
+    \cD\up{2}) (\Ohat_{n-1}) = \big(
+    \cD\up{1} + 
+    \cD\up{2}\big)^n (\Omega).
 \end{equation}
 After a little bit algebra, the estimator can shown to be given by the formula:
 \begin{align}\label{eq:cdd-estimator}
@@ -1262,28 +1262,28 @@ At higher truncation level, the estimation error is related with the lower level
 \begin{equation}\label{eq:error update}
  \begin{aligned}
 \delta\Omega_{n+1} 
-&=\cF(\Omega_{n})-(\cF\up{1}+\cF\up{2})(\Ohat_{n})\\
-&= \cF\up{1}(\delta\Omega_{n})+ \sum_{m=2}^\infty \cF\up{m}(\Omega_{n})-\cF\up{2}(\Ohat_{n}),
+&=\cD(\Omega_{n})-(\cD\up{1}+\cD\up{2})(\Ohat_{n})\\
+&= \cD\up{1}(\delta\Omega_{n})+ \sum_{m=2}^\infty \cD\up{m}(\Omega_{n})-\cD\up{2}(\Ohat_{n}),
 \end{aligned} 
 \end{equation}
-where we have used the fact that $\cF\up{1}$ is a linear map. 
+where we have used the fact that $\cD\up{1}$ is a linear map. 
 To properly bound the size of the error term, we take the two-component norm on both sides of \Eqref{eq:error update}:
 \begin{equation}
 \begin{aligned}\label{eq:cdd-error-3terms}
 \opnorm{\delta\Omega_{n+1} }
-&\lesssim \opnorm{ \cF\up{1}(\delta\Omega_{n}) } + 
-\opnorm{\sum_{m=3}^\infty \cF\up{m}( \Omega_{n})} \\
-&+ \opnorm{ \cF\up{2}(\Omega_n)-\cF\up{2}(\Ohat_{n})}.
+&\lesssim \opnorm{ \cD\up{1}(\delta\Omega_{n}) } + 
+\opnorm{\sum_{m=3}^\infty \cD\up{m}( \Omega_{n})} \\
+&+ \opnorm{ \cD\up{2}(\Omega_n)-\cD\up{2}(\Ohat_{n})}.
 \end{aligned}    
 \end{equation}
 We now need to show $\opnorm{\delta\Omega_{n+1}}\lesssim(\tau^3,\tau^{n+3})$.
-The original CDD paper by Khodjasteh and Lidar has only showed that the higher order Magnus series $\sum_{m=3}^\infty\cF\up{m}(\Ohat_{n})$ is small.
+The original CDD paper by Khodjasteh and Lidar has only showed that the higher order Magnus series $\sum_{m=3}^\infty\cD\up{m}(\Ohat_{n})$ is small.
 However \Eqref{eq:error update} suggests that this argument is not sufficient: as
 the estimate error $\delta\Omega_{n+1}$ comes not only  from the truncation error of the same level, but also propagates from the lower level error $\delta\Omega_{n}$. 
 We now examine the size of these terms.
 The first term in (\ref{eq:cdd-error-3terms}) is straightforward,
 \begin{equation*}
-\opnorm{\cF\up{1}(\delta\Omega_{n})} = \begin{pmatrix}
+\opnorm{\cD\up{1}(\delta\Omega_{n})} = \begin{pmatrix}
 4 \delta\alpha_{n} \\
 0
 \end{pmatrix}\simeq
@@ -1295,7 +1295,7 @@ The first term in (\ref{eq:cdd-error-3terms}) is straightforward,
 The second term involves a infinite sum of Magnus terms higher than third order, which is lead by the third order term, whose 
 size can be bounded by 
 \begin{equation*}
-\opnorm{\cF\up{3}(\Omega_n)}\lesssim
+\opnorm{\cD\up{3}(\Omega_n)}\lesssim
 \begin{pmatrix}
 \beta_{n}^2 (\alpha_{n}+\beta_{n}) \\
 \beta_{n} (\alpha_{n}+\beta_{n})^2
@@ -1308,14 +1308,14 @@ size can be bounded by
 where we have used the induction hypothesis 
 $\alpha_{n}\simeq\widehat\alpha_{n}\simeq\tau$ and 
 $\beta_{n}\simeq\widehat\beta_{n}\simeq \tau^{n+1}$ .
-The estimation for $\opnorm{\cF\up{3}(\Omega_n)}$ can be done by explicitly calculating the third order Magnus term for PDD; or by making  the clever observation that for higher Magnus terms, 
+The estimation for $\opnorm{\cD\up{3}(\Omega_n)}$ can be done by explicitly calculating the third order Magnus term for PDD; or by making  the clever observation that for higher Magnus terms, 
 $B_{i\neq0}$ is involved in the coupling part for at least once and 
  the pure bath part for at least two times.  
-To bound the third term in (\ref{eq:cdd-error-3terms}), we need to calculate the difference $\cF\up{2}(\Ohat+\delta\Omega) - \cF\up{2}(\Ohat)$.
+To bound the third term in (\ref{eq:cdd-error-3terms}), we need to calculate the difference $\cD\up{2}(\Ohat+\delta\Omega) - \cD\up{2}(\Ohat)$.
 Using the expression for the second order Magnus term, we obtain
 \begin{equation*}
 \begin{split}
-&\opnorm[\big]{\cF\up{2}(\Omega) - \cF\up{2}(\Ohat)} 
+&\opnorm[\big]{\cD\up{2}(\Omega) - \cD\up{2}(\Ohat)} 
 \lesssim\begin{pmatrix}
     0\\
     \delta\alpha_{n} \beta_{n} +\alpha_{n} \delta\beta_{n}
